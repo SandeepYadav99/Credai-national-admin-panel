@@ -1,0 +1,196 @@
+.mainLoginView {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('../../assets/img/login_bg.png');
+}
+.loginFlex1 {
+    background-image: url('../../assets/img/KS_logo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    flex: 1;
+    display: block;
+    position: relative;
+    width: 100%;
+    /*padding: 40px;*/
+    color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginFlex2 {
+    /*background-color: #FBFBFB;*/
+    /* flex: 1; */
+    width: 50%;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loginSignupText {
+    text-align: left;
+}
+
+.bottomSignUp {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.subText {
+    margin:20px 0px;
+    font-weight: 400;
+    /*font-size: 18px;*/
+    text-align: justify;
+}
+
+.bottomContainer {
+    position: absolute;
+    bottom: 40px;
+}
+
+.headingText {
+   text-align: center;
+    color: black;
+    font-size: 1.7rem;
+    margin-bottom: 2px;
+    /*font-family: CircularStd-Bold;*/
+}
+
+
+.bottomSignup {
+    font-size: 0.8rem;
+}
+
+.forgotBtn {
+    color: #2005A2 !important;
+    font-size: 0.7rem;
+    /*font-weight: 600;*/
+}
+
+.heading{
+    margin-bottom: 30px;
+    color: white;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    /*font-family: 'CircularStd-Medium';*/
+}
+
+.innerFlex {
+    display: flex;
+    align-items: center;
+}
+.icons {
+    height: 70px;
+    width: 70px;
+}
+
+.textRight {
+    margin-left: 15px;
+}
+
+.titleText {
+    font-size: 22px;
+    font-family: 'CircularStd-Book';
+}
+
+.subHeading {
+    font-size: 14px;
+    /*font-family: CircularStd-Book;*/
+}
+.logFlex{
+    margin-left: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 7px;
+}
+
+.negativeSpacing{
+    margin-left: -20px;
+}
+
+.privacyFlex{
+    display: flex;
+    justify-content: space-between;
+    padding: 5% 15%;
+    font-weight: 600;
+}
+
+.privacyContainer{
+    /*padding: 20px 60px;*/
+}
+
+.bottomLinks{
+    font-size: 0.7rem;
+    color: #5F63F2;
+}
+
+.signContainer{
+    padding: 7%;
+    padding-bottom: 10%;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgb(0 0 0 / 15%);
+    /*padding: 1.2rem;*/
+    background: white;
+    margin: 10%;
+}
+
+.login {
+    padding: 15px 60px 15px 60px!important;
+    color: white !important;
+    background-image: linear-gradient(265deg , #7467F0,#2896E9) !important;
+    /*text-transform: uppercase;*/
+    border: 1px solid white !important;
+    margin-top: 15px !important;
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .5s ease-out;
+    width: 100%;
+    border-radius: 30px !important;
+    font-weight: 600 !important;
+}
+.logoImg{
+   text-align: center;
+}
+
+.centerLine{
+    width: 400px;
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, green, lightgreen);
+    border-image-slice: 1;
+    padding: 25px;
+}
+
+.newLine{
+    height: 5px;
+    width: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin: auto;
+    background-image: linear-gradient(265deg , #7467F0,#2896E9) !important;
+}
+
+
+@media (max-width: 767px) {
+    .mainLoginView {
+    }
+    .loginFlex2{
+        width: 80%;
+        margin: 10% 4%;
+    }
+    .loginFlex1{
+        display: none;
+        /* min-height: 240px; */
+    }
+    .signContainer{
+        margin: 0%;
+    }
+}
