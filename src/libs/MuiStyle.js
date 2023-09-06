@@ -49,7 +49,7 @@ export default (theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        color: '#2896e9',
+        color: '#E56056 ',
         padding: '5px 15px',
         textTransform: 'uppercase',
         background: '#ffffff',

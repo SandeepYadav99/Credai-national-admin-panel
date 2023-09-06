@@ -13,7 +13,7 @@
   width: 30px;
   border-radius: 10px;
   margin-left: 1px;
-  background-image: linear-gradient(265deg, #7467f0, #2896e9) !important;
+  background-image: linear-gradient(265deg, #AB183D, #E56056 ) !important;
 }
 .contentWrapper {
   display: flex;
@@ -41,7 +41,7 @@
 .achorTag {
   font-weight: 600;
   font-size: 1.125rem;
-  color: #2896e9;
+  color: #E56056 ;
 }
 .contentFormat {
   line-height: 1.5;
@@ -59,7 +59,7 @@
   padding-top: 10px;
 }
 .hyperlinkText{
-  color: #2896E9;
+  color: #E56056 ;
   text-decoration-line: underline;
   /* cursor: pointer; */
 }

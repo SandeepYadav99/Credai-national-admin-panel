@@ -14,7 +14,7 @@ const BorderLinearProgress = withStyles((theme) => ({
     },
     bar: {
         borderRadius: 5,
-        backgroundImage: 'linear-gradient(265deg , #7467F0,#2896E9)'
+        backgroundImage: 'linear-gradient(265deg , #AB183D,#E56056 )'
     },
 }))(LinearProgress)
 

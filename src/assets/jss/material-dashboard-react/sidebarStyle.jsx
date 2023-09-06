@@ -108,7 +108,7 @@ const sidebarStyle = theme => ({
   },
   logoImage: {
     // width: "30px",
-    color: '#2896E9',
+    color: '#E56056 ',
     fontSize: '1.4rem',
     fontWeight: '600',
     display: "inline-block",
@@ -118,7 +118,7 @@ const sidebarStyle = theme => ({
     textAlign: 'center'
   },
   img: {
-    left: "7px",
+    left: "20px",
     height: "42px",
     top: "26px",
     position: "absolute",
@@ -216,12 +216,12 @@ const sidebarStyle = theme => ({
     }
   },
   blue: {
-    backgroundImage: "linear-gradient(265deg , #7467F0,#2896E9) ",
+    backgroundImage: "linear-gradient(265deg , #AB183D,#E56056 ) ",
     // backgroundColor: theme.palette.primary.main,
     // boxShadow:
     //   "0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)",
     "&:hover": {
-      backgroundImage: "linear-gradient(265deg , #7467F0,#2896E9) ",
+      backgroundImage: "linear-gradient(265deg , #AB183D,#E56056 ) ",
       // backgroundColor: theme.palette.primary.main,
       // boxShadow:
       //   "0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)"

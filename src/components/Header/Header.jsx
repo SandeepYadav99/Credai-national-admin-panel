@@ -107,7 +107,7 @@ class Header extends React.Component {
                 <Toolbar className={classes.container}>
                     <IconButton className={classes.menuButton} onClick={this.props.handleHeaderClick} color="inherit"
                                 aria-label="Menu">
-                        <img src={require("../../assets/img/ic_hamburger.png")} height={15}/>
+                        <img src={require("../../assets/img/ic_hamburger@2x.png")} height={15}/>
                         {/*<MenuIcon className={'menuItem'}/>*/}
                     </IconButton>
                     <Button href="#" className={classes.title}>

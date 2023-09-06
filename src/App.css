@@ -254,8 +254,8 @@ input[type=radio] + label:hover {
     color: #dce4da;
 }
 .success {
-    border: 1px solid #2896E9;
-    color: #2896E9;
+    border: 1px solid #E56056 ;
+    color: #E56056 ;
 }
 
 .error {
@@ -335,7 +335,7 @@ input[type=radio] + label:hover {
 .tableActionBtn {
     padding: 6px !important;
     color: black !important;
-    border: 1px solid #2896E9 !important;
+    border: 1px solid #E56056  !important;
     border-radius: 3px !important;
     margin-right: 10px !important;
 }
@@ -836,7 +836,7 @@ font-size: medium;
 }
 
 .menuItem{
-    color: #7467F0;
+    color: #AB183D;
 }
 
 
@@ -906,7 +906,7 @@ font-size: medium;
 }
 
 .filterSearchIcon{
-    background-image: linear-gradient(265deg , #7467F0,#2896E9);
+    background-image: linear-gradient(265deg , #AB183D,#E56056 );
     color: white;
     border-radius: 20px;
     padding: 5px 15px;
@@ -916,15 +916,15 @@ font-size: medium;
 }
 
 .filterColor{
-    color: #2896E9 !important;
+    color: #E56056  !important;
 }
 
 .MuiSwitch-colorSecondary.Mui-checked{
-    /*background-image: linear-gradient(265deg , #7467F0,#2896E9) !important;*/
+    /*background-image: linear-gradient(265deg , #AB183D,#E56056 ) !important;*/
     /*color: white;*/
 }
 .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track{
-    background-image: linear-gradient(265deg , #7467F0,#2896E9) !important;
+    background-image: linear-gradient(265deg , #AB183D,#E56056 ) !important;
 }
 
 .txtCenter{
@@ -933,7 +933,7 @@ font-size: medium;
 }
 
 .viewBtn{
-    color: #2896E9 !important;
+    color: #E56056  !important;
     font-weight: 600 !important;
 }
 
@@ -947,7 +947,7 @@ font-size: medium;
 }
 
 .MuiTabs-indicator{
-    background-image: linear-gradient(265deg , #7467F0,#2896E9) !important;
+    background-image: linear-gradient(265deg , #AB183D,#E56056 ) !important;
 }
 
 .MuiTab-textColorPrimary.Mui-selected{

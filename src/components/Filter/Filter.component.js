@@ -15,11 +15,11 @@ import cstyles from './Style.module.css';
 const styles = {
     flatButton: {
         float: 'right',
-        border: '1px solid #2896E9',
+        border: '1px solid #E56056 ',
         borderRadius: '30px',
         textTransform: 'capitalize',
         padding: '6px 15px',
-        color: '#2896E9'
+        color: '#E56056 '
     },
 };
 const useStyles = {

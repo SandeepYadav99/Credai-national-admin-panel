@@ -1,7 +1,7 @@
 import tinycolor from "tinycolor2";
 
-const primary = "#2896E9";
-const secondary = "#7467F0";
+const primary = "#E56056 ";
+const secondary = "#AB183D";
 const bgcolors = '#ffffff';
 const textColor = "#000000";
 const warning = "#FFC260";
