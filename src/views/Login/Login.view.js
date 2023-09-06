@@ -25,6 +25,9 @@ const validate = (values) => {
       errors[field] = "Required";
     }
   });
+  // if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  //     errors.email = 'Invalid email address'
+  // }
   return errors;
 };
 
@@ -77,6 +80,7 @@ class LoginView extends Component {
       is_checked: false,
     };
     this._handleSubmit = this._handleSubmit.bind(this);
+    this._handleForgotPassword = this._handleForgotPassword.bind(this);
     this._handleChange = this._handleChange.bind(this);
   }
 
@@ -85,6 +89,7 @@ class LoginView extends Component {
   }
 
   _handleSubmit(data) {
+    // history.push(`/`);
     serviceLoginUser(data).then((val) => {
       if (!val.error) {
         this.props.actionLoginUser(val.data, this.state.is_checked);
@@ -100,25 +105,33 @@ class LoginView extends Component {
     });
   }
 
+  _handleForgotPassword() {
+    this.props.history.push("/forgot/password");
+  }
+
   render() {
     const { handleSubmit, classes } = this.props;
     return (
       <div className={"login"}>
         <div className={styles.mainLoginView}>
+          <div className={styles.loginFlex1}></div>
           <div className={styles.loginFlex2}>
             <div className={styles.signContainer}>
               <div className={styles.logoImg}>
                 <img
-                  src={require("../../assets/img/KS_logo.png")}
+                  src={require("../../assets/img/credai_logo@2x.png")}
                   className={styles.sky}
                 />
               </div>
-              <h1 className={styles.headingText}>Ksheer Sagar ERP</h1>
-              <h2 className={styles.headingText} style={{marginBottom:'0'}}>Admin Login</h2>
+              <h1 className={styles.headingText}>Login</h1>
               <div className={styles.newLine} />
               <br />
+              <div className={styles.des}>
+                Enter your phone number & password to login
+              </div>
+              <br />
               <form onSubmit={handleSubmit(this._handleSubmit)}>
-                <div>
+                <>
                   <div>
                     <Field
                       fullWidth={true}
@@ -127,6 +140,13 @@ class LoginView extends Component {
                       component={renderOutlinedTextField}
                       label="Employee ID"
                     />
+                    {/* <Field
+                      fullWidth={true}
+                      margin={"dense"}
+                      name="emp_id"
+                      component={renderCountryContact}
+                      label="Phone Number"
+                    /> */}
                   </div>
                   <br />
                   <div>
@@ -144,9 +164,21 @@ class LoginView extends Component {
                       Login
                     </ButtonBase>
                   </div>
-                </div>
+                  <div className={styles.otpWrap}>
+                    <div className={styles.bottomSignup}>
+                      <ButtonBase
+                        onClick={this._handleForgotPassword}
+                        className={styles.forgotBtn}
+                      >
+                        Login with OTP
+                      </ButtonBase>
+                    </div>
+                  </div>
+                </>
               </form>
             </div>
+
+            <div className={styles.privacyLinks}></div>
           </div>
           <DashboardSnackbar />
         </div>
