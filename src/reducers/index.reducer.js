@@ -6,6 +6,8 @@ import DashboardReducer from "./Dashboard.reducer";
 import AppSettingReducer from "./AppSettings.reducer";
 import ProviderUser from "./ProviderUser.reducer";
 import Services from "./Service.reducer";
+import MasterListReducer from "./MasterList.reducer";
+import AdminUserReducer from "./AdminUser.reducer";
 
 const rootReducer = combineReducers({
   state: (state = {}) => state,
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   provider_user: ProviderUser,
   services: Services,
+  master_list:MasterListReducer,
+  adminUser:AdminUserReducer
 });
 
 export default rootReducer;

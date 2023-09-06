@@ -239,7 +239,7 @@ export default {
             head: {
                 fontSize: '0.7rem',
                 padding: '15px 10px',
-                background: '#ECF7FF',
+                background: '#FEECED',
                 textTransform: 'uppercase',
                 fontWeight: 'bold',
                 lineHeight: '1rem',
