@@ -43,22 +43,6 @@ const AdminUserList = ({}) => {
     is_fetching: isFetching,
   } = useSelector((state) => state.adminUser);
 
-  const renderStatus = useCallback((status) => {
-    return <StatusPill status={status} />;
-  }, []);
-
-  const renderFirstCell = useCallback((obj) => {
-    if (obj) {
-      return (
-        <div className={styles.firstCellFlex}>
-          <div className={classNames(styles.firstCellInfo, "openSans")}>
-            <span className={styles.productName}>{obj?.code}</span> <br />
-          </div>
-        </div>
-      );
-    }
-    return null;
-  }, []);
   const UpperInfo = useCallback((obj) => {
     if (obj) {
       return (
@@ -77,32 +61,32 @@ const AdminUserList = ({}) => {
         key: "name",
         label: "NAME",
         sortable: false,
-        render: (temp, all) => <div>{console.log('all',all)}{all?.name}</div>,
+        render: (temp, all) => <div>{all?.name}</div>,
       },
       {
         key: "email",
         label: "email",
         sortable: true,
-        render: (value, all) => <div>{renderFirstCell(all)}</div>,
+        render: (value, all) => <div>{all?.email}</div>,
       },
 
       {
         key: "contact",
         label: "PHONE NUMBER",
         sortable: true,
-        render: (temp, all) => <div>{renderStatus(all.status)}</div>,
+        render: (temp, all) => <div>{all.contact}</div>,
       },
       {
         key: "role",
         label: "ROLE",
         sortable: true,
-        render: (temp, all) => <div>{renderStatus(all.status)}</div>,
+        render: (temp, all) => <div>{all.type}</div>,
       },
       {
         key: "status",
         label: "STATUS",
         sortable: true,
-        render: (temp, all) => <div>{renderStatus(all.status)}</div>,
+        render: (temp, all) => <div>{<StatusPill status={all.status} />}</div>,
       },
       {
         key: "user_id",
@@ -113,9 +97,9 @@ const AdminUserList = ({}) => {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              onClick={() => {
-                handleToggleSidePannel(all);
-              }}
+              // onClick={() => {
+              //   handleToggleSidePannel(all);
+              // }}
             >
               <Edit fontSize={"small"} />
             </IconButton>
@@ -123,7 +107,7 @@ const AdminUserList = ({}) => {
         ),
       },
     ];
-  }, [renderStatus, renderFirstCell, handleViewDetails, handleEdit, isCalling]);
+  }, [handleViewDetails, handleEdit, isCalling]);
 
   const tableData = useMemo(() => {
     const datatableFunctions = {

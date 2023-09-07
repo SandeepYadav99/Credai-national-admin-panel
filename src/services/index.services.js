@@ -11,7 +11,12 @@ export async function serviceLoginUser(data) {
 export async function serviceGetProfile () {
     return await postRequest('profile', {});
 }
-
+export async function serviceRequestOtp(params) {
+    return await postRequest('auth/send/otp', params);
+}
+export async function serviceVerifyOTP(params) {
+    return await postRequest('auth/verify/otp', params);
+}
 
 export async function serviceGetList(list, otherParams = {}) {
     return await postRequest('list', { list: list, ...otherParams });

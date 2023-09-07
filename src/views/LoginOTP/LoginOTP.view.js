@@ -3,32 +3,32 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import styles from "./Login.module.css";
-import {
-  renderCountryContact,
-  renderOutlinedPasswordField,
-  renderOutlinedTextField,
-} from "../../libs/redux-material.utils";
 import { Button, withStyles, ButtonBase } from "@material-ui/core";
-import { serviceLoginUser } from "../../services/index.services";
-import { actionLoginUser } from "../../actions/auth_index.action";
 import DashboardSnackbar from "../../components/Snackbar.component";
+import { Link } from "react-router-dom";
+
 import EventEmitter from "../../libs/Events.utils";
 import { updateTitle } from "../../libs/general.utils";
-import history from "../../libs/history.utils";
-import SnackbarUtils from "../../libs/SnackbarUtils";
+import LoginViewForm from "./components/LoginView.view";
+import OtpView from "./components/Otp.view";
+import { serviceLoginUser } from "../../services/index.services";
+import { actionLoginUser } from "../../actions/auth_index.action";
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = ["contact", "password"];
+  const requiredFields = ["email", "password"];
 
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = "Required";
     }
   });
-  // if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-  //     errors.email = 'Invalid email address'
-  // }
+  if (
+    values.email &&
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+  ) {
+    errors.email = "Invalid email address";
+  }
   return errors;
 };
 
@@ -59,16 +59,16 @@ const useStyles = {
     padding: "10px 25px",
   },
   colorButton: {
-    color: "black",
-    backgroundColor: "white",
-    padding: "10px 60px",
-    minWidth: "170px",
-    borderRadius: "5px",
+    color: "white",
+    backgroundColor: "#1cb496",
+    padding: "12px 50px",
+    minWidth: "185px",
+    borderRadius: "4px",
     fontSize: "14px",
     fontWeight: "500",
     "&:hover": {
       color: "white",
-      backgroundColor: "#5f63f2",
+      backgroundColor: "#1cb496",
     },
   },
 };
@@ -79,10 +79,26 @@ class LoginView extends Component {
     this.state = {
       a: false,
       is_checked: false,
+      showOTP: false,
+      contact: "",
+      country_code: "",
     };
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleForgotPassword = this._handleForgotPassword.bind(this);
     this._handleChange = this._handleChange.bind(this);
+    this._handleLogin = this._handleLogin.bind(this);
+  }
+
+  _sendOTPRequest = () => {
+    this.setState({ showOTP: true });
+  };
+
+  _handleLogin(contact, country_code) {
+    this.setState({
+      contact: contact,
+      country_code: country_code,
+      showOTP: true,
+    });
   }
 
   async componentDidMount() {
@@ -90,14 +106,14 @@ class LoginView extends Component {
   }
 
   _handleSubmit(data) {
-    const modifiedContact = data?.contact.replace(/[+-]/g, '')
-    data.contact = modifiedContact
-    // history.push(`/`);
     serviceLoginUser(data).then((val) => {
       if (!val.error) {
-        this.props.actionLoginUser(val.data, this.state.is_checked);
+        this.props.actionLoginUser(val.data);
       } else {
-        SnackbarUtils.error("Invalid Credentials! Please verify.");
+        EventEmitter.dispatch(EventEmitter.THROW_ERROR, {
+          error: "Invalid Credentials! Please verify.",
+          type: "error",
+        });
       }
     });
   }
@@ -109,12 +125,39 @@ class LoginView extends Component {
   }
 
   _handleForgotPassword() {
-    this.props.history.push("/other");
+    this.props.history.push("/forgot/password");
   }
 
   render() {
     const { handleSubmit, classes } = this.props;
+    const { contact, country_code } = this.state;
     return (
+      // <div className={'login'}>
+      // <div className={styles.mainLoginView}>
+      //     <div className={styles.loginFlex1}>
+      //         <div className={styles.innerText}>
+
+      //         </div>
+      //     </div>
+      //     <div className={styles.loginFlex2}>
+      //         <div></div>
+      //         <div className={styles.signContainer}>
+      //             <div className={styles.logo}>
+      //                 <img src={require('../../assets/img/credai_logo@2x.png')} height={110}/>
+      //             </div>
+      //             <div className={styles.title}>
+      //                 <div>Cherise App Admin</div>
+      //             </div>
+
+      //             {this.state.showOTP ? <OtpView contact={contact} country_code={country_code} /> : (<LoginViewForm handleLogin={this._handleLogin}/>)}
+      //         </div>
+      //         <div>
+
+      //         </div>
+      //     </div>
+      //     <DashboardSnackbar/>
+      // </div>
+      // </div>
       <div className={"login"}>
         <div className={styles.mainLoginView}>
           <div className={styles.loginFlex1}></div>
@@ -130,55 +173,14 @@ class LoginView extends Component {
               <div className={styles.newLine} />
               <br />
               <div className={styles.des}>
-                Enter your phone number & password to login
+                Enter your phone number to receive OTP
               </div>
               <br />
-              <form onSubmit={handleSubmit(this._handleSubmit)}>
-                <>
-                  <div>
-                    {/* <Field
-                      fullWidth={true}
-                      margin={"dense"}
-                      name="contact"
-                      component={renderOutlinedTextField}
-                      label="Employee ID"
-                    /> */}
-                    <Field
-                      fullWidth={true}
-                      margin={"dense"}
-                      name="contact"
-                      component={renderCountryContact}
-                      label="Phone Number"
-                    />
-                  </div>
-                  <br />
-                  <div>
-                    <Field
-                      // type={'password'}
-                      fullWidth={true}
-                      name="password"
-                      component={renderOutlinedPasswordField}
-                      label="Password"
-                    />
-                  </div>
-
-                  <div style={{ marginTop: "7px" }}>
-                    <ButtonBase type="submit" className={styles.login}>
-                      Login
-                    </ButtonBase>
-                  </div>
-                  <div className={styles.otpWrap}>
-                    <div className={styles.bottomSignup}>
-                      <ButtonBase
-                        onClick={this._handleForgotPassword}
-                        className={styles.forgotBtn}
-                      >
-                        Login with OTP
-                      </ButtonBase>
-                    </div>
-                  </div>
-                </>
-              </form>
+              {this.state.showOTP ? (
+                <OtpView contact={contact} country_code={country_code} />
+              ) : (
+                <LoginViewForm handleLogin={this._handleLogin} />
+              )}
             </div>
 
             <div className={styles.privacyLinks}></div>
