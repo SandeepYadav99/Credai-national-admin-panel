@@ -14,7 +14,7 @@ export async function serviceDeleteMasterList(params) {
   return await postRequest("/chapters/delete", params);
 }
 export async function serviceGetMasterListDetails(params) {
-  return await postRequest("master/claims/details", params);
+  return await postRequest("chapters/detail", params);
 }
 export async function serviceGetMasterList(params) {
   return await postRequest("/chapters", params);
@@ -23,5 +23,5 @@ export async function serviceDetailsMasterList(params) {
   return await postRequest("/chapters/details", params);
 }
 export async function serviceCheckMasterList(params) {
-  return await postRequest("/chapters/details", params);
+  return await postRequest("/chapters/exists", params);
 }

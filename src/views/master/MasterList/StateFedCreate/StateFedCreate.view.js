@@ -3,6 +3,7 @@ import { Button, ButtonBase, MenuItem } from "@material-ui/core";
 import styles from "./Style.module.css";
 import { makeStyles } from "@material-ui/styles";
 import CustomTextField from "../../../../components/FormFields/TextField/TextField.component";
+import CustomSelectField from "../../../../components/FormFields/SelectField/SelectField.component";
 import history from "../../../../libs/history.utils";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CustomSwitch from "../../../../components/FormFields/CustomSwitch";
@@ -31,6 +32,7 @@ const StateFedCreate = ({}) => {
     onBlurHandler,
     changeTextData,
     id,
+    listData,
   } = useStateFedCreate({});
   const classes = useStyles();
 
@@ -81,7 +83,7 @@ const StateFedCreate = ({}) => {
                 <CustomTextField
                   isError={errorData?.name}
                   errorText={errorData?.name}
-                  label={"Department Name"}
+                  label={"State Chapter Name"}
                   value={form?.name}
                   onTextChange={(text) => {
                     changeTextData(text, "name");
@@ -95,7 +97,7 @@ const StateFedCreate = ({}) => {
                 <CustomTextField
                   isError={errorData?.code}
                   errorText={errorData?.code}
-                  label={"Department Code"}
+                  label={"Code"}
                   value={form?.code}
                   onTextChange={(text) => {
                     changeTextData(text, "code");
@@ -108,33 +110,23 @@ const StateFedCreate = ({}) => {
             </div>
             <div className={"formFlex"}>
               <div className={"formGroup"}>
-                <CustomTextField
-                  isError={errorData?.name}
-                  errorText={errorData?.name}
-                  label={"Department Name"}
-                  value={form?.name}
-                  onTextChange={(text) => {
-                    changeTextData(text, "name");
+                <CustomSelectField
+                  label={"Admin"}
+                  value={form?.admin_id}
+                  handleChange={(value) => {
+                    changeTextData(value, "admin_id");
                   }}
-                  onBlur={() => {
-                    onBlurHandler("name");
-                  }}
-                />
+                >
+                  {listData?.ADMIN?.map((dT) => {
+                    return (
+                      <MenuItem value={dT?.id} key={dT?.id}>
+                        {dT?.name}
+                      </MenuItem>
+                    );
+                  })}
+                </CustomSelectField>
               </div>
-              <div className={"formGroup"}>
-                <CustomTextField
-                  isError={errorData?.code}
-                  errorText={errorData?.code}
-                  label={"Department Code"}
-                  value={form?.code}
-                  onTextChange={(text) => {
-                    changeTextData(text, "code");
-                  }}
-                  onBlur={() => {
-                    onBlurHandler("code");
-                  }}
-                />
-              </div>
+              <div className={"formGroup"}></div>
             </div>
           </div>
         </div>
@@ -150,9 +142,9 @@ const StateFedCreate = ({}) => {
         <div className={"formFlex"}>
           <div className={"formGroup"}>
             <CustomSwitch
-              value={form?.is_active}
+              value={form?.status}
               handleChange={() => {
-                changeTextData(!form?.is_active, "is_active");
+                changeTextData(!form?.status, "status");
               }}
               label={`Active`}
             />

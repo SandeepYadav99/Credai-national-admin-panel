@@ -36,7 +36,7 @@ const MasterList = ({}) => {
     warehouses,
     handleCsvDownload,
     handleCreateFed,
-    ViewNationalDetail
+    ViewNationalDetail,
   } = useMasterList({});
 
   const {
@@ -46,64 +46,36 @@ const MasterList = ({}) => {
     is_fetching: isFetching,
   } = useSelector((state) => state.master_list);
 
-  const renderStatus = useCallback((status) => {
-    return (
-      <StatusPill
-        status={status}
-        style={status === "PROCESSED" && { background: "#ceece2" }}
-      />
-    );
-  }, []);
-
-  const renderFirstCell = useCallback((obj) => {
-    if (obj) {
-      return (
-        <div className={styles.firstCellFlex}>
-          <div className={classNames(styles.firstCellInfo, "openSans")}>
-            <span className={styles.productName}>{obj?.employee?.name}</span>{" "}
-            <br />
-            <span className={styles.productName}>
-              {obj?.employee?.emp_code}
-            </span>{" "}
-            <br />
-          </div>
-        </div>
-      );
-    }
-    return null;
-  }, []);
-
   const tableStructure = useMemo(() => {
     return [
       {
         key: "code",
         label: "STATE FEDERATION CODE",
         sortable: true,
-        render: (value, all) => <div>{renderFirstCell(all)}</div>,
+        render: (value, all) => (
+          <div>
+            {console.log(all)}
+            {all.code}
+          </div>
+        ),
       },
       {
         key: "name",
         label: "STATE FEDERATION NAME",
         sortable: false,
-        render: (temp, all) => (
-          <div>
-            {all?.contact}
-            <br />
-            {`${all?.grade?.code}/${all?.cadre?.code}`}
-          </div>
-        ),
+        render: (temp, all) => <div>{all?.name}</div>,
       },
       {
         key: "created",
         label: "CREATED ON",
         sortable: false,
-        render: (temp, all) => <div>{all?.location?.name}</div>,
+        render: (temp, all) => <div>{all?.createdAtText}</div>,
       },
       {
         key: "status",
         label: "STATUS",
         sortable: false,
-        render: (temp, all) => <div>{all?.designation?.name}</div>,
+        render: (temp, all) => <div>{<StatusPill status={all?.status} />}</div>,
       },
       {
         key: "action",
@@ -116,13 +88,12 @@ const MasterList = ({}) => {
         ),
       },
     ];
-  }, [renderStatus, renderFirstCell, handleViewDetails, handleEdit, isCalling]);
+  }, [handleViewDetails, handleEdit, isCalling]);
 
   const tableData = useMemo(() => {
     const datatableFunctions = {
       onSortOrderChange: handleSortOrderChange,
       onPageChange: handlePageChange,
-      // onRowSelection: this.handleRowSelection,
       onRowSizeChange: handleRowSize,
     };
 
@@ -162,10 +133,7 @@ const MasterList = ({}) => {
                 View National Member
               </ButtonBase>
             </div>
-            <ButtonBase
-              onClick={handleCreateFed}
-              className={"createBtn"}
-            >
+            <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
               ADD State Federation
               <Add fontSize={"small"} className={"plusIcon"}></Add>
             </ButtonBase>

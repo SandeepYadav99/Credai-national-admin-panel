@@ -18,16 +18,14 @@ import historyUtils from "../../../../libs/history.utils";
 import SnackbarUtils from "../../../../libs/SnackbarUtils";
 import { useParams } from "react-router";
 import Constants from "../../../../config/constants";
+import { serviceGetList } from "../../../../services/index.services";
 
 const initialForm = {
   name: "",
-  country_code: "91",
-  contact: "",
-  email: "",
-  password: "",
-  role: "",
-  is_active: true,
-  image: null,
+  code: "",
+  image: "",
+  admin_id: "",
+  status: false,
 };
 
 const useStateFedCreate = ({}) => {
@@ -38,6 +36,9 @@ const useStateFedCreate = ({}) => {
   const [isEdit, setIsEdit] = useState(false);
   const codeDebouncer = useDebounce(form?.code, 500);
   const { id } = useParams();
+  const [listData, setListData] = useState({
+    ADMIN: [],
+  });
 
   useEffect(() => {
     if (id) {
@@ -56,21 +57,27 @@ const useStateFedCreate = ({}) => {
     }
   }, [id]);
 
+  useEffect(() => {
+    serviceGetList(["ADMIN"]).then((res) => {
+      if (!res.error) {
+        setListData(res.data);
+      }
+    });
+  }, []);
+
   const checkCodeValidation = useCallback(() => {
-    serviceCheckMasterList({ code: form?.code, id: id ? id : null }).then(
-      (res) => {
-        if (!res.error) {
-          const errors = JSON.parse(JSON.stringify(errorData));
-          if (res.data.is_exists) {
-            errors["code"] = "MasterList Code Exists";
-            setErrorData(errors);
-          } else {
-            delete errors.code;
-            setErrorData(errors);
-          }
+    serviceCheckMasterList({ code: form?.code }).then((res) => {
+      if (!res.error) {
+        const errors = JSON.parse(JSON.stringify(errorData));
+        if (res.data.is_exists) {
+          errors["code"] = "MasterList Code Exists";
+          setErrorData(errors);
+        } else {
+          delete errors.code;
+          setErrorData(errors);
         }
       }
-    );
+    });
   }, [errorData, setErrorData, form?.code, id]);
 
   useEffect(() => {
@@ -81,15 +88,7 @@ const useStateFedCreate = ({}) => {
 
   const checkFormValidation = useCallback(() => {
     const errors = { ...errorData };
-    let required = [
-      "name",
-      "country_code",
-      "contact",
-      "email",
-      "password",
-      "role",
-      "image",
-    ];
+    let required = ["name", "code", "image", "admin_id"];
     required.forEach((val) => {
       if (
         !form?.[val] ||
@@ -111,14 +110,25 @@ const useStateFedCreate = ({}) => {
   const submitToServer = useCallback(() => {
     if (!isSubmitting) {
       setIsSubmitting(true);
+      const fd = new FormData();
+      console.log('form',form)
+      Object.keys(form).forEach((key) => {
+        if (["image"].indexOf(key) < 0 && form[key]) {
+          if (key === "status") {
+            fd.append("status", form[key] ? "ACTIVE" : "INACTIVE");
+          } else {
+            fd.append(key, form[key]);
+          }
+        }
+      });
       let req = serviceCreateMasterList;
       if (id) {
         req = serviceUpdateMasterList;
       }
-      req({ ...form }).then((res) => {
+      req(fd).then((res) => {
         LogUtils.log("response", res);
         if (!res.error) {
-          historyUtils.push("/departments");
+          historyUtils.push("/master");
         } else {
           SnackbarUtils.success(res.message);
         }
@@ -195,6 +205,7 @@ const useStateFedCreate = ({}) => {
     handleDelete,
     handleReset,
     id,
+    listData,
   };
 };
 
