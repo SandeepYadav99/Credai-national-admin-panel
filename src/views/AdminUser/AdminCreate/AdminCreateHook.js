@@ -3,6 +3,7 @@ import {
   isAlpha,
   isAlphaNum,
   isAlphaNumChars,
+  isEmail,
   isNum,
   isSpace,
 } from "../../../libs/RegexUtils";
@@ -20,15 +21,16 @@ import RouteName from "../../../routes/Route.name";
 
 const initialForm = {
   name: "",
-  code: "",
-  is_active: true,
+  country_code: "91",
+  contact: "",
+  email: "",
+  password: "",
+  type: "",
+  status: true,
+  // image: null,
 };
 
-const useAdminCreate = ({
-  handleToggleSidePannel,
-  isSidePanel,
-  empId,
-}) => {
+const useAdminCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPasswordCurrent, setShowPasswordCurrent] = useState(false);
   const [errorData, setErrorData] = useState({});
@@ -45,9 +47,8 @@ const useAdminCreate = ({
           const data = res?.data?.details;
           setForm({
             ...form,
-            code: data?.code,
             name: data?.name,
-            is_active: data?.status === Constants.GENERAL_STATUS.ACTIVE,
+            status: data?.status === Constants.GENERAL_STATUS.ACTIVE,
           });
         } else {
           SnackbarUtils.error(res?.message);
@@ -87,7 +88,15 @@ const useAdminCreate = ({
 
   const checkFormValidation = useCallback(() => {
     const errors = { ...errorData };
-    let required = ["name", "code"];
+    let required = [
+      "name",
+      "country_code",
+      "contact",
+      "email",
+      "password",
+      "type",
+      // "image",
+    ];
     required.forEach((val) => {
       if (
         !form?.[val] ||
@@ -96,6 +105,9 @@ const useAdminCreate = ({
         errors[val] = true;
       } else if (["code"].indexOf(val) < 0) {
         delete errors[val];
+      }
+      if (form?.email && !isEmail(form?.email)) {
+        errors["email"] = true;
       }
     });
     Object.keys(errors).forEach((key) => {
@@ -109,11 +121,19 @@ const useAdminCreate = ({
   const submitToServer = useCallback(() => {
     if (!isSubmitting) {
       setIsSubmitting(true);
+      const fd = new FormData();
+      Object.keys(form).forEach((key) => {
+        if (key === "status") {
+          fd.append(key, form[key] ? "ACTIVE" : "INACTIVE");
+        } else {
+          fd.append(key, form[key]);
+        }
+      });
       let req;
       if (empId) {
         req = serviceUpdateAdminUser({ ...form, id: empId ? empId : "" });
       } else {
-        req = serviceCreateAdminUser({ ...form });
+        req = serviceCreateAdminUser(fd);
       }
       req.then((res) => {
         if (!res.error) {

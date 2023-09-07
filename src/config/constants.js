@@ -4,8 +4,8 @@ const tempLevel = true;
 const tempDate = new Date();
 const isProduction = false;
 
-let url = "http://91.205.173.97:8586/api/admin/";
-let socketUrl = "http://91.205.173.97:8586";
+let url = "http://91.205.173.97:8591/api/admin/";
+let socketUrl = "http://91.205.173.97:8591";
 
 if (isProduction) {
   url = "https://api.indswiftlabs.com/api/admin/";

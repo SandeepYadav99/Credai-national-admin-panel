@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import styles from "./Login.module.css";
 import {
+  renderCountryContact,
   renderOutlinedPasswordField,
   renderOutlinedTextField,
 } from "../../libs/redux-material.utils";
@@ -18,7 +19,7 @@ import SnackbarUtils from "../../libs/SnackbarUtils";
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = ["emp_id", "password"];
+  const requiredFields = ["contact", "password"];
 
   requiredFields.forEach((field) => {
     if (!values[field]) {
@@ -89,6 +90,8 @@ class LoginView extends Component {
   }
 
   _handleSubmit(data) {
+    const modifiedContact = data?.contact.replace(/[+-]/g, '')
+    data.contact = modifiedContact
     // history.push(`/`);
     serviceLoginUser(data).then((val) => {
       if (!val.error) {
@@ -133,20 +136,20 @@ class LoginView extends Component {
               <form onSubmit={handleSubmit(this._handleSubmit)}>
                 <>
                   <div>
-                    <Field
-                      fullWidth={true}
-                      margin={"dense"}
-                      name="emp_id"
-                      component={renderOutlinedTextField}
-                      label="Employee ID"
-                    />
                     {/* <Field
                       fullWidth={true}
                       margin={"dense"}
-                      name="emp_id"
+                      name="contact"
+                      component={renderOutlinedTextField}
+                      label="Employee ID"
+                    /> */}
+                    <Field
+                      fullWidth={true}
+                      margin={"dense"}
+                      name="contact"
                       component={renderCountryContact}
                       label="Phone Number"
-                    /> */}
+                    />
                   </div>
                   <br />
                   <div>

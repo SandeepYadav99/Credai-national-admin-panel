@@ -10,16 +10,16 @@ import {
 } from "@material-ui/core";
 import classNames from "classnames";
 import { connect, useSelector } from "react-redux";
-import PageBox from "../../../components/PageBox/PageBox.component";
+import PageBox from "../../../../components/PageBox/PageBox.component";
 import styles from "./Style.module.css";
-import DataTables from "../../../Datatables/Datatable.table";
-import Constants from "../../../config/constants";
-import FilterComponent from "../../../components/Filter/Filter.component";
-import StatusPill from "../../../components/Status/StatusPill.component";
-import useMasterList from "./MasterList.hook";
+import DataTables from "../../../../Datatables/Datatable.table";
+import Constants from "../../../../config/constants";
+import FilterComponent from "../../../../components/Filter/Filter.component";
+import StatusPill from "../../../../components/Status/StatusPill.component";
+import useNationalMemDetail from "./NationalMemDetail.hook";
 import { Add } from "@material-ui/icons";
 
-const MasterList = ({}) => {
+const NationalMemDetail = ({}) => {
   const {
     handleSortOrderChange,
     handleRowSize,
@@ -36,8 +36,7 @@ const MasterList = ({}) => {
     warehouses,
     handleCsvDownload,
     handleCreateFed,
-    ViewNationalDetail
-  } = useMasterList({});
+  } = useNationalMemDetail({});
 
   const {
     data,
@@ -150,23 +149,12 @@ const MasterList = ({}) => {
       <PageBox>
         <div className={styles.headerContainer}>
           <div>
-            <span className={styles.title}>CREDAI National List</span>
+            <span className={styles.title}>Member List</span>
             <div className={styles.newLine} />
           </div>
           <div className={styles.BtnWrapper}>
-            <div className={styles.rightFlex}>
-              <ButtonBase
-                className={styles.download}
-                onClick={ViewNationalDetail}
-              >
-                View National Member
-              </ButtonBase>
-            </div>
-            <ButtonBase
-              onClick={handleCreateFed}
-              className={"createBtn"}
-            >
-              ADD State Federation
+            <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
+              ADD Member
               <Add fontSize={"small"} className={"plusIcon"}></Add>
             </ButtonBase>
           </div>
@@ -194,4 +182,4 @@ const MasterList = ({}) => {
   );
 };
 
-export default MasterList;
+export default NationalMemDetail;

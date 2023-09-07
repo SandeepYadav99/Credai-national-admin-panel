@@ -36,13 +36,12 @@ const AdminUserList = ({}) => {
     handleToggleSidePannel,
   } = useAdminUserList({});
 
-  const { isCorporateHR } = useAuthenticate();
   const {
     data,
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.adminUser);
 
   const renderStatus = useCallback((status) => {
     return <StatusPill status={status} />;
@@ -78,7 +77,7 @@ const AdminUserList = ({}) => {
         key: "name",
         label: "NAME",
         sortable: false,
-        render: (temp, all) => <div>{all?.name}</div>,
+        render: (temp, all) => <div>{console.log('all',all)}{all?.name}</div>,
       },
       {
         key: "email",

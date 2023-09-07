@@ -1,20 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  actionCreateAdminUser,
-  actionDeleteAdminUser,
-  actionFetchAdminUser,
-  actionSetPageAdminUser,
-  actionUpdateAdminUser,
-} from "../../../actions/AdminUser.action";
-import historyUtils from "../../../libs/history.utils";
-import LogUtils from "../../../libs/LogUtils";
-import RouteName from "../../../routes/Route.name";
+  actionCreateMasterList,
+  actionDeleteMasterList,
+  actionFetchMasterList,
+  actionSetPageMasterList,
+  actionUpdateMasterList,
+} from "../../../../actions/MasterList.action";
+import historyUtils from "../../../../libs/history.utils";
+import LogUtils from "../../../../libs/LogUtils";
+import RouteName from "../../../../routes/Route.name";
+import { serviceGetList } from "../../../../services/index.services";
 
-const useAdminUserList = ({}) => {
-  const [isSidePanel, setSidePanel] = useState(false);
+const useNationalMemDetail = ({}) => {
   const [isCalling, setIsCalling] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [listData, setListData] = useState({
+    LOCATIONS: [],
+  });
   const dispatch = useDispatch();
   const isMountRef = useRef(false);
   const {
@@ -22,15 +25,10 @@ const useAdminUserList = ({}) => {
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.adminUser);
-
-  useEffect(() => {
-    // dispatch(actionFetchAdminUser());
-  }, []);
-
+  } = useSelector((state) => state.master_list);
   useEffect(() => {
     dispatch(
-      actionFetchAdminUser(1, {}, {
+      actionFetchMasterList(1, sortingData, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
       })
@@ -38,36 +36,42 @@ const useAdminUserList = ({}) => {
     isMountRef.current = true;
   }, []);
 
+  useEffect(() => {
+    serviceGetList(["LOCATIONS"]).then((res) => {
+      if (!res.error) {
+        setListData(res.data);
+      }
+    });
+  }, []);
+  console.log("list", listData);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
-    dispatch(actionSetPageAdminUser(type));
+    dispatch(actionSetPageMasterList(type));
   }, []);
 
   const handleDataSave = useCallback(
     (data, type) => {
       // this.props.actionChangeStatus({...data, type: type});
       if (type == "CREATE") {
-        dispatch(actionCreateAdminUser(data));
+        dispatch(actionCreateMasterList(data));
       } else {
-        dispatch(actionUpdateAdminUser(data));
+        dispatch(actionUpdateMasterList(data));
       }
-      setSidePanel((e) => !e);
       setEditData(null);
     },
-    [setSidePanel, setEditData]
+    [setEditData]
   );
 
   const queryFilter = useCallback(
     (key, value) => {
       console.log("_queryFilter", key, value);
-      // dispatch(actionSetPageAdminUserRequests(1));
+      // dispatch(actionSetPageMasterListRequests(1));
       dispatch(
-        actionFetchAdminUser(1, sortingData, {
+        actionFetchMasterList(1, sortingData, {
           query: key == "SEARCH_TEXT" ? value : query,
           query_data: key == "FILTER_DATA" ? value : queryData,
         })
       );
-      // dispatch(actionFetchAdminUser(1, sortingData))
     },
     [sortingData, query, queryData]
   );
@@ -91,9 +95,8 @@ const useAdminUserList = ({}) => {
   const handleSortOrderChange = useCallback(
     (row, order) => {
       console.log(`handleSortOrderChange key:${row} order: ${order}`);
-      dispatch(actionSetPageAdminUser(1));
       dispatch(
-        actionFetchAdminUser(
+        actionFetchMasterList(
           1,
           { row, order },
           {
@@ -112,54 +115,39 @@ const useAdminUserList = ({}) => {
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(actionDeleteAdminUser(id));
-      setSidePanel(false);
+      dispatch(actionDeleteMasterList(id));
       setEditData(null);
     },
-    [setEditData, setSidePanel]
+    [setEditData]
   );
 
   const handleEdit = useCallback(
     (data) => {
       setEditData(data);
-      setSidePanel((e) => !e);
     },
-    [setEditData, setSidePanel]
-  );
-
-  const handleToggleSidePannel = useCallback(
-    (data) => {
-      setSidePanel((e) => !e);
-      setEditData(data?.id);
-    },
-    [setSidePanel, setEditData]
-  );
-
-  const handleSideToggle = useCallback(
-    (data) => {
-      historyUtils.push(RouteName.LOCATIONS_UPDATE + data?.id);
-    },
-    [setEditData, setSidePanel]
+    [setEditData]
   );
 
   const handleViewDetails = useCallback((data) => {
-    historyUtils.push(RouteName.LOCATIONS_DETAILS + data.id); //+data.id
+    LogUtils.log("data", data);
+    historyUtils.push(`${RouteName.CLAIMS_DETAILS}${data?.id}`); //+data.id
   }, []);
 
-  const handleCreate = useCallback(() => {
-    historyUtils.push(RouteName.LOCATIONS_CREATE);
+  const handleCreateFed = useCallback((data) => {
+    LogUtils.log("data", data);
+    historyUtils.push(`${RouteName.STATE_FEDERATION_CREATE}`); //+data.id
   }, []);
 
   const configFilter = useMemo(() => {
     return [
       {
-        label: "Status",
-        name: "status",
+        label: "Financial year",
+        name: "fy_year",
         type: "select",
-        fields: ["ACTIVE", "INACTIVE"],
+        fields: ["2023-2024"],
       },
     ];
-  }, []);
+  }, [listData]);
 
   return {
     handlePageChange,
@@ -170,15 +158,12 @@ const useAdminUserList = ({}) => {
     handleSortOrderChange,
     handleDelete,
     handleEdit,
-    handleSideToggle,
     handleViewDetails,
     isCalling,
     editData,
-    isSidePanel,
     configFilter,
-    handleCreate,
-    handleToggleSidePannel,
+    handleCreateFed
   };
 };
 
-export default useAdminUserList;
+export default useNationalMemDetail;

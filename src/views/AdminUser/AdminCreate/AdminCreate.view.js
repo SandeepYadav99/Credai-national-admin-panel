@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import {
   Button,
   ButtonBase,
+  CircularProgress,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -56,7 +57,7 @@ const AdminCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
             label={"Full Name"}
             value={form?.name}
             onTextChange={(text) => {
-              isAlpha(text) && changeTextData(text, "name");
+              changeTextData(text, "name");
             }}
             onBlur={() => {
               onBlurHandler("name");
@@ -83,6 +84,20 @@ const AdminCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
             margin={"dense"}
             label="Phone No"
           /> */}
+          <div className={"formGroup"}>
+            <CustomTextField
+              isError={errorData?.contact}
+              errorText={errorData?.contact}
+              label={"Contact"}
+              value={form?.contact}
+              onTextChange={(text) => {
+                changeTextData(text, "contact");
+              }}
+              onBlur={() => {
+                onBlurHandler("contact");
+              }}
+            />
+          </div>
         </div>
         <div className={"formGroup"}>
           <CustomTextField
@@ -115,26 +130,26 @@ const AdminCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       <div className={"formFlex"}>
         <div className={"formGroup"}>
           <CustomTextField
-            isError={errorData?.name}
-            errorText={errorData?.name}
+            isError={errorData?.email}
+            errorText={errorData?.email}
             label={"Email"}
-            value={form?.name}
+            value={form?.email}
             onTextChange={(text) => {
-              changeTextData(text, "name");
+              changeTextData(text, "email");
             }}
             onBlur={() => {
-              onBlurHandler("name");
+              onBlurHandler("email");
             }}
           />
         </div>
         <div className={"formGroup"}>
           <CustomSelectField
-            isError={errorData?.gender}
-            errorText={errorData?.gender}
+            isError={errorData?.type}
+            errorText={errorData?.type}
             label={"ROLE"}
-            value={form?.gender}
+            value={form?.type}
             handleChange={(value) => {
-              changeTextData(value, "gender");
+              changeTextData(value, "type");
             }}
           >
             <MenuItem value="ADMIN">ADMIN</MenuItem>
@@ -151,9 +166,9 @@ const AdminCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       <div className={"formFlex"}>
         <div className={"formGroup"}>
           <CustomSwitch
-            value={form?.is_active}
+            value={form?.status}
             handleChange={() => {
-              changeTextData(!form?.is_active, "is_active");
+              changeTextData(!form?.status, "status");
             }}
             label={`Active`}
           />
@@ -167,7 +182,13 @@ const AdminCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
           onClick={handleSubmit}
           className={styles.createBtn}
         >
-          {empId ? "Update" : "Create"}
+          {isSubmitting ? (
+            <CircularProgress color="success" size="20px" />
+          ) : empId ? (
+            "Update"
+          ) : (
+            "Create"
+          )}
         </ButtonBase>
       </div>
     </div>

@@ -11,6 +11,7 @@ import MasterList from "../views/master/MasterList/MasterList.view";
 import AdminUserList from "../views/AdminUser/AdminUserList/AdminUserList.container";
 import MemberList from "../views/MemberList/MemberList.view";
 import StateFedCreate from "../views/master/MasterList/StateFedCreate/StateFedCreate.view";
+import NationalMemDetail from "../views/master/MasterList/NationalMemDetail/NationalMemDetail.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -42,6 +43,15 @@ const dashboardRoutes = [
     navbarName: "Chapters Master",
     icon: PeopleOutlined,
     component: StateFedCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
+  {
+    path: `${RouteName.NATIONAL_MEMBER_DETAIL}`,
+    sidebarName: "National Member",
+    navbarName: "National Member",
+    icon: PeopleOutlined,
+    component: NationalMemDetail,
     is_sidebar: false,
     is_protect: true,
   },
