@@ -8,6 +8,7 @@ import ProviderUser from "./ProviderUser.reducer";
 import Services from "./Service.reducer";
 import MasterListReducer from "./MasterList.reducer";
 import AdminUserReducer from "./AdminUser.reducer";
+import MemberListReducer from "./MemberList.reducer";
 
 const rootReducer = combineReducers({
   state: (state = {}) => state,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   provider_user: ProviderUser,
   services: Services,
   master_list:MasterListReducer,
-  adminUser:AdminUserReducer
+  adminUser:AdminUserReducer,
+  member_list:MemberListReducer
 });
 
 export default rootReducer;

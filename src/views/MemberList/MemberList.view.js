@@ -10,16 +10,15 @@ import {
 } from "@material-ui/core";
 import classNames from "classnames";
 import { connect, useSelector } from "react-redux";
-import PageBox from "../../../components/PageBox/PageBox.component";
+import PageBox from "../../components/PageBox/PageBox.component";
 import styles from "./Style.module.css";
-import DataTables from "../../../Datatables/Datatable.table";
-import Constants from "../../../config/constants";
-import FilterComponent from "../../../components/Filter/Filter.component";
-import StatusPill from "../../../components/Status/StatusPill.component";
-import useMasterList from "./MasterList.hook";
-import { Add } from "@material-ui/icons";
+import DataTables from "../../Datatables/Datatable.table";
+import Constants from "../../config/constants";
+import FilterComponent from "../../components/Filter/Filter.component";
+import StatusPill from "../../components/Status/StatusPill.component";
+import useMemberList from "./MemberList.hook";
 
-const MasterList = ({}) => {
+const MemberList = ({}) => {
   const {
     handleSortOrderChange,
     handleRowSize,
@@ -29,14 +28,13 @@ const MasterList = ({}) => {
     handleEdit,
     handleFilterDataChange,
     handleSearchValueChange,
-    handleViewDetails,
+    handleCreateFed,
     editData,
     isCalling,
     configFilter,
     warehouses,
     handleCsvDownload,
-    handleCreateFed
-  } = useMasterList({});
+  } = useMemberList({});
 
   const {
     data,
@@ -115,7 +113,7 @@ const MasterList = ({}) => {
         ),
       },
     ];
-  }, [renderStatus, renderFirstCell, handleViewDetails, handleEdit, isCalling]);
+  }, [renderStatus, renderFirstCell, handleEdit, isCalling]);
 
   const tableData = useMemo(() => {
     const datatableFunctions = {
@@ -145,28 +143,16 @@ const MasterList = ({}) => {
   ]);
 
   return (
-    <>
+    <div>
       <PageBox>
         <div className={styles.headerContainer}>
           <div>
-            <span className={styles.title}>CREDAI National List</span>
+            <span className={styles.title}>Members List</span>
             <div className={styles.newLine} />
           </div>
-          <div className={styles.BtnWrapper}>
-            <div className={styles.rightFlex}>
-              <ButtonBase
-                className={styles.download}
-                onClick={handleCsvDownload}
-              >
-                View National Member
-              </ButtonBase>
-            </div>
-            <ButtonBase
-              onClick={handleCreateFed}
-              className={"createBtn"}
-            >
-              ADD State Federation
-              <Add fontSize={"small"} className={"plusIcon"}></Add>
+          <div className={styles.rightFlex}>
+            <ButtonBase className={styles.download} onClick={handleCsvDownload}>
+              Create
             </ButtonBase>
           </div>
         </div>
@@ -189,8 +175,8 @@ const MasterList = ({}) => {
           </div>
         </div>
       </PageBox>
-    </>
+    </div>
   );
 };
 
-export default MasterList;
+export default MemberList;

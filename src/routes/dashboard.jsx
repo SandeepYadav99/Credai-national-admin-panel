@@ -9,6 +9,8 @@ import Constants from "../config/constants";
 import RouteName from "./Route.name";
 import MasterList from "../views/master/MasterList/MasterList.view";
 import AdminUserList from "../views/AdminUser/AdminUserList/AdminUserList.container";
+import MemberList from "../views/MemberList/MemberList.view";
+import StateFedCreate from "../views/master/MasterList/StateFedCreate/StateFedCreate.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -35,6 +37,15 @@ const dashboardRoutes = [
     is_protect: true,
   },
   {
+    path: `${RouteName.STATE_FEDERATION_CREATE}`,
+    sidebarName: "Chapters Master",
+    navbarName: "Chapters Master",
+    icon: PeopleOutlined,
+    component: StateFedCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
+  {
     path: `${RouteName.ADMIN}`,
     sidebarName: "Admin Users",
     navbarName: "Admin Users",
@@ -48,7 +59,7 @@ const dashboardRoutes = [
     sidebarName: "Members List",
     navbarName: "Members List",
     icon: PeopleOutlined,
-    component: NewDashboard,
+    component: MemberList,
     is_sidebar: true,
     is_protect: true,
   },

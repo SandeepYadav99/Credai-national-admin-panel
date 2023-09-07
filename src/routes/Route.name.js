@@ -4,6 +4,7 @@ export default {
   CHAPTERS_MASTER: "/master",
   CHAPTERS_MASTER_DETAILS: "/master/details/",
   CHAPTERS_MASTER_UPDATE: "/master/update/",
+  STATE_FEDERATION_CREATE:'/state/fed/create',
 
   ADMIN: "/admin",
   ADMIN_CREATE: "/admin/create",

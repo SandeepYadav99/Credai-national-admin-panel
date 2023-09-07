@@ -18,3 +18,6 @@ export async function serviceGetMasterList(params) {
 export async function serviceDetailsMasterList(params) {
     return await postRequest('cr/master/details', params);
 }
+export async function serviceCheckMasterList(params) {
+    return await postRequest('cr/master/details', params);
+}

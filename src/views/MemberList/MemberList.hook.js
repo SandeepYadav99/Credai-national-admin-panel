@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  actionCreateMasterList,
-  actionDeleteMasterList,
-  actionFetchMasterList,
-  actionSetPageMasterList,
-  actionUpdateMasterList,
-} from "../../../actions/MasterList.action";
-import historyUtils from "../../../libs/history.utils";
-import LogUtils from "../../../libs/LogUtils";
-import RouteName from "../../../routes/Route.name";
-import { serviceGetList } from "../../../services/index.services";
+  actionCreateMemberList,
+  actionDeleteMemberList,
+  actionFetchMemberList,
+  actionSetPageMemberList,
+  actionUpdateMemberList,
+} from "../../actions/MemberList.action";
+import historyUtils from "../../libs/history.utils";
+import LogUtils from "../../libs/LogUtils";
+import RouteName from "../../routes/Route.name";
+import { serviceGetList } from "../../services/index.services";
 
-const useMasterList = ({}) => {
+const useMemberList = ({}) => {
   const [isCalling, setIsCalling] = useState(false);
   const [editData, setEditData] = useState(null);
   const [listData, setListData] = useState({
@@ -25,10 +25,10 @@ const useMasterList = ({}) => {
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.member_list);
   useEffect(() => {
     dispatch(
-      actionFetchMasterList(1, sortingData, {
+      actionFetchMemberList(1, sortingData, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
       })
@@ -46,16 +46,16 @@ const useMasterList = ({}) => {
   console.log("list", listData);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
-    dispatch(actionSetPageMasterList(type));
+    dispatch(actionSetPageMemberList(type));
   }, []);
 
   const handleDataSave = useCallback(
     (data, type) => {
       // this.props.actionChangeStatus({...data, type: type});
       if (type == "CREATE") {
-        dispatch(actionCreateMasterList(data));
+        dispatch(actionCreateMemberList(data));
       } else {
-        dispatch(actionUpdateMasterList(data));
+        dispatch(actionUpdateMemberList(data));
       }
       setEditData(null);
     },
@@ -65,9 +65,9 @@ const useMasterList = ({}) => {
   const queryFilter = useCallback(
     (key, value) => {
       console.log("_queryFilter", key, value);
-      // dispatch(actionSetPageMasterListRequests(1));
+      // dispatch(actionSetPageMemberListRequests(1));
       dispatch(
-        actionFetchMasterList(1, sortingData, {
+        actionFetchMemberList(1, sortingData, {
           query: key == "SEARCH_TEXT" ? value : query,
           query_data: key == "FILTER_DATA" ? value : queryData,
         })
@@ -96,7 +96,7 @@ const useMasterList = ({}) => {
     (row, order) => {
       console.log(`handleSortOrderChange key:${row} order: ${order}`);
       dispatch(
-        actionFetchMasterList(
+        actionFetchMemberList(
           1,
           { row, order },
           {
@@ -115,7 +115,7 @@ const useMasterList = ({}) => {
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(actionDeleteMasterList(id));
+      dispatch(actionDeleteMemberList(id));
       setEditData(null);
     },
     [setEditData]
@@ -128,11 +128,6 @@ const useMasterList = ({}) => {
     [setEditData]
   );
 
-  const handleViewDetails = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.CLAIMS_DETAILS}${data?.id}`); //+data.id
-  }, []);
-
   const handleCreateFed = useCallback((data) => {
     LogUtils.log("data", data);
     historyUtils.push(`${RouteName.STATE_FEDERATION_CREATE}`); //+data.id
@@ -140,6 +135,19 @@ const useMasterList = ({}) => {
 
   const configFilter = useMemo(() => {
     return [
+      {
+        label: "Location",
+        name: "location_id",
+        type: "selectObject",
+        custom: { extract: { id: "id", title: "name" } },
+        fields: listData?.LOCATIONS,
+      },
+      {
+        label: "Claim Category",
+        name: "category",
+        type: "select",
+        fields: ["PART B", "PART E"],
+      },
       {
         label: "Financial year",
         name: "fy_year",
@@ -158,12 +166,11 @@ const useMasterList = ({}) => {
     handleSortOrderChange,
     handleDelete,
     handleEdit,
-    handleViewDetails,
+    handleCreateFed,
     isCalling,
     editData,
     configFilter,
-    handleCreateFed
   };
 };
 
-export default useMasterList;
+export default useMemberList;
