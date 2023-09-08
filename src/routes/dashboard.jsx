@@ -14,6 +14,8 @@ import StateFedCreate from "../views/master/MasterList/StateFedCreate/StateFedCr
 import NationalMemDetail from "../views/master/MasterList/NationalMemDetail/NationalMemDetail.view";
 import CityAssocList from "../views/master/CityAssocList/CityAssocList.view";
 import CityAssCreate from "../views/master/CityAssCreate/CityAssCreate.view";
+import EventList from "../views/Events/EventList/EventList.view";
+import EventCreate from "../views/Events/EventCreate/EventCreate.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -126,8 +128,17 @@ const dashboardRoutes = [
     sidebarName: "Events",
     navbarName: "Events",
     icon: PeopleOutlined,
-    component: NewDashboard,
+    component: EventList,
     is_sidebar: true,
+    is_protect: true,
+  },
+  {
+    path: `${RouteName.EVENTS_CREATE}`,
+    sidebarName: "Events",
+    navbarName: "Events",
+    icon: PeopleOutlined,
+    component: EventCreate,
+    is_sidebar: false,
     is_protect: true,
   },
 ];
