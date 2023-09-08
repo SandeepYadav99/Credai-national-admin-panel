@@ -1,33 +1,26 @@
-import React, { Component, useCallback, useEffect, useMemo } from "react";
-import {
-  Button,
-  Paper,
-  Checkbox,
-  IconButton,
-  MenuItem,
-  ButtonBase,
-  Menu,
-} from "@material-ui/core";
-import classNames from "classnames";
-import { connect, useSelector } from "react-redux";
-import PageBox from "../../../components/PageBox/PageBox.component";
+import React from "react";
+import history from "../../../libs/history.utils";
 import styles from "./Style.module.css";
-import DataTables from "../../../Datatables/Datatable.table";
-import Constants from "../../../config/constants";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { ButtonBase, IconButton } from "@material-ui/core";
+import UpperInfo from "./component/UpperInfo/UpperInfo";
 import FilterComponent from "../../../components/Filter/Filter.component";
+import DataTables from "../../../Datatables/Datatable.table";
+import PageBox from "../../../components/PageBox/PageBox.component";
+import useCityAssocList from "./CityAssocList.hook";
+import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import StatusPill from "../../../components/Status/StatusPill.component";
-import useMasterList from "./MasterList.hook";
 import { Add, InfoOutlined } from "@material-ui/icons";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import PeopleOutlineOutlinedIcon from "@material-ui/icons/PeopleOutlineOutlined";
+import Constants from "../../../config/constants";
 
-const MasterList = ({}) => {
+function CityAssocList() {
   const {
     handleSortOrderChange,
     handleRowSize,
     handlePageChange,
-    handleDataSave,
-    handleDelete,
     handleEdit,
     handleFilterDataChange,
     handleSearchValueChange,
@@ -37,22 +30,22 @@ const MasterList = ({}) => {
     configFilter,
     warehouses,
     handleCreateFed,
-    ViewNationalDetail,
     handleViewUpdate,
-  } = useMasterList({});
+    CityData,
+  } = useCityAssocList({});
 
   const {
     data,
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.city_assoc_list);
 
   const tableStructure = useMemo(() => {
     return [
       {
         key: "code",
-        label: "STATE FEDERATION CODE",
+        label: "city FEDERATION CODE",
         sortable: true,
         render: (value, all) => (
           <div>
@@ -62,15 +55,9 @@ const MasterList = ({}) => {
       },
       {
         key: "name",
-        label: "STATE FEDERATION NAME",
+        label: "city NAME",
         sortable: false,
         render: (temp, all) => <div>{all?.name}</div>,
-      },
-      {
-        key: "created",
-        label: "CREATED ON",
-        sortable: false,
-        render: (temp, all) => <div>{all?.createdAtText}</div>,
       },
       {
         key: "status",
@@ -79,7 +66,7 @@ const MasterList = ({}) => {
         render: (temp, all) => <div>{<StatusPill status={all?.status} />}</div>,
       },
       {
-        key: "action",
+        key: "user_id",
         label: "Action",
         style: { width: "15%" },
         render: (temp, all) => (
@@ -88,21 +75,11 @@ const MasterList = ({}) => {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              onClick={() => {
-                handleViewUpdate(all);
-              }}
+              // onClick={() => {
+              //   handleViewUpdate(all);
+              // }}
             >
               <InfoOutlined fontSize={"small"} />
-            </IconButton>
-            <IconButton
-              className={"tableActionBtn"}
-              color="secondary"
-              disabled={isCalling}
-              onClick={() => {
-                handleViewDetails(all);
-              }}
-            >
-              <RoomOutlinedIcon fontSize={"small"} />
             </IconButton>
             <IconButton
               className={"tableActionBtn"}
@@ -145,28 +122,29 @@ const MasterList = ({}) => {
     data,
     currentPage,
   ]);
-
   return (
-    <>
+    <div className={styles.claimListWrapper}>
+      <div className={styles.outerFlex}>
+        <div>
+          <ButtonBase onClick={() => history.goBack()}>
+            <ArrowBackIosIcon fontSize={"small"} />{" "}
+            <span className={"capitalize"}>
+              <b>City Association list</b>
+            </span>
+          </ButtonBase>
+          <div className={styles.newLine} />
+        </div>
+        <ButtonBase className={"createBtn"} onClick={handleCreateFed}>
+          ADD City Association
+          <Add fontSize={"small"} className={"plusIcon"}></Add>
+        </ButtonBase>
+      </div>
+      <UpperInfo data={CityData} />
       <PageBox>
         <div className={styles.headerContainer}>
           <div>
-            <span className={styles.title}>CREDAI National List</span>
-            <div className={styles.newLine} />
-          </div>
-          <div className={styles.BtnWrapper}>
-            <div className={styles.rightFlex}>
-              <ButtonBase
-                className={styles.download}
-                onClick={ViewNationalDetail}
-              >
-                View National Member
-              </ButtonBase>
-            </div>
-            <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
-              ADD State Federation
-              <Add fontSize={"small"} className={"plusIcon"}></Add>
-            </ButtonBase>
+            <span className={styles.title}>Member List</span>
+            <div className={styles.newLine2} />
           </div>
         </div>
 
@@ -188,8 +166,8 @@ const MasterList = ({}) => {
           </div>
         </div>
       </PageBox>
-    </>
+    </div>
   );
-};
+}
 
-export default MasterList;
+export default CityAssocList;

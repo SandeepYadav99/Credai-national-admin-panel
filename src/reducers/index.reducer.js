@@ -9,6 +9,7 @@ import Services from "./Service.reducer";
 import MasterListReducer from "./MasterList.reducer";
 import AdminUserReducer from "./AdminUser.reducer";
 import MemberListReducer from "./MemberList.reducer";
+import CityAssocListReducer from "./CityAssocList.reducer";
 
 const rootReducer = combineReducers({
   state: (state = {}) => state,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   services: Services,
   master_list:MasterListReducer,
   adminUser:AdminUserReducer,
-  member_list:MemberListReducer
+  member_list:MemberListReducer,
+  city_assoc_list:CityAssocListReducer
 });
 
 export default rootReducer;

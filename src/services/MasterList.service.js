@@ -5,23 +5,23 @@ import {
 } from "../libs/AxiosService.util";
 
 export async function serviceCreateMasterList(params) {
-  return await formDataRequest("/chapters/create", params);
+  return await formDataRequest("chapters/create", params);
 }
 export async function serviceUpdateMasterList(params) {
-  return await postRequest("/chapters/update", params);
+  return await postRequest("chapters/update", params);
 }
 export async function serviceDeleteMasterList(params) {
-  return await postRequest("/chapters/delete", params);
+  return await postRequest("chapters/delete", params);
 }
 export async function serviceGetMasterListDetails(params) {
   return await postRequest("chapters/detail", params);
 }
 export async function serviceGetMasterList(params) {
-  return await postRequest("/chapters", params);
+  return await postRequest("chapters", params);
 }
 export async function serviceDetailsMasterList(params) {
-  return await postRequest("/chapters/details", params);
+  return await postRequest("chapters/details", params);
 }
 export async function serviceCheckMasterList(params) {
-  return await postRequest("/chapters/exists", params);
+  return await postRequest("chapters/exists", params);
 }

@@ -12,6 +12,8 @@ import AdminUserList from "../views/AdminUser/AdminUserList/AdminUserList.contai
 import MemberList from "../views/MemberList/MemberList.view";
 import StateFedCreate from "../views/master/MasterList/StateFedCreate/StateFedCreate.view";
 import NationalMemDetail from "../views/master/MasterList/NationalMemDetail/NationalMemDetail.view";
+import CityAssocList from "../views/master/CityAssocList/CityAssocList.view";
+import CityAssCreate from "../views/master/CityAssCreate/CityAssCreate.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -55,6 +57,25 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
+  {
+    path: `${RouteName.CITY_ASSOCIATION_LIST}:id`,
+    sidebarName: "National Member",
+    navbarName: "National Member",
+    icon: PeopleOutlined,
+    component: CityAssocList,
+    is_sidebar: false,
+    is_protect: true,
+  },
+  {
+    path: `${RouteName.CITY_ASSOCIATION_CREATE}`,
+    sidebarName: "Chapters Master",
+    navbarName: "Chapters Master",
+    icon: PeopleOutlined,
+    component: CityAssCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
+  
   {
     path: `${RouteName.ADMIN}`,
     sidebarName: "Admin Users",

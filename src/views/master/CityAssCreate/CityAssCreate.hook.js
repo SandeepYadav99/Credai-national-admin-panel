@@ -5,20 +5,20 @@ import {
   isAlphaNumChars,
   isNum,
   isSpace,
-} from "../../../../libs/RegexUtils";
-import useDebounce from "../../../../hooks/DebounceHook";
-import LogUtils from "../../../../libs/LogUtils";
+} from "../../../libs/RegexUtils";
+import useDebounce from "../../../hooks/DebounceHook";
+import LogUtils from "../../../libs/LogUtils";
 import {
-  serviceCreateMasterList,
-  serviceGetMasterListDetails,
-  serviceUpdateMasterList,
-  serviceCheckMasterList,
-} from "../../../../services/MasterList.service";
-import historyUtils from "../../../../libs/history.utils";
-import SnackbarUtils from "../../../../libs/SnackbarUtils";
+  serviceCreateCityAssocList,
+  serviceGetCityAssocListDetails,
+  serviceUpdateCityAssocList,
+  serviceCheckCityAssocList,
+} from "../../../services/CityAssocList.service";
+import historyUtils from "../../../libs/history.utils";
+import SnackbarUtils from "../../../libs/SnackbarUtils";
 import { useParams } from "react-router";
-import Constants from "../../../../config/constants";
-import { serviceGetList } from "../../../../services/index.services";
+import Constants from "../../../config/constants";
+import { serviceGetList } from "../../../services/index.services";
 
 const initialForm = {
   name: "",
@@ -28,7 +28,7 @@ const initialForm = {
   status: false,
 };
 
-const useStateFedCreate = ({}) => {
+const useCityAssCreate = ({ location }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorData, setErrorData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,10 +39,11 @@ const useStateFedCreate = ({}) => {
   const [listData, setListData] = useState({
     ADMIN: [],
   });
+  const parentId = location?.state?.parent_id;
 
   useEffect(() => {
     if (id) {
-      serviceGetMasterListDetails({ id: id }).then((res) => {
+      serviceGetCityAssocListDetails({ id: id }).then((res) => {
         if (!res.error) {
           const data = res?.data?.details;
           setForm({
@@ -66,11 +67,11 @@ const useStateFedCreate = ({}) => {
   }, []);
 
   const checkCodeValidation = useCallback(() => {
-    serviceCheckMasterList({ code: form?.code }).then((res) => {
+    serviceCheckCityAssocList({ code: form?.code }).then((res) => {
       if (!res.error) {
         const errors = JSON.parse(JSON.stringify(errorData));
         if (res.data.is_exists) {
-          errors["code"] = "MasterList Code Exists";
+          errors["code"] = "City Association Code Exists";
           setErrorData(errors);
         } else {
           delete errors.code;
@@ -111,6 +112,7 @@ const useStateFedCreate = ({}) => {
     if (!isSubmitting) {
       setIsSubmitting(true);
       const fd = new FormData();
+      console.log("form", form);
       Object.keys(form).forEach((key) => {
         if (["image", "status"].indexOf(key) < 0 && form[key]) {
           fd.append(key, form[key]);
@@ -120,9 +122,10 @@ const useStateFedCreate = ({}) => {
       if (form?.image) {
         fd.append("image", form?.image);
       }
-      let req = serviceCreateMasterList;
+      fd.append("parent_chapter_id", parentId);
+      let req = serviceCreateCityAssocList;
       if (id) {
-        req = serviceUpdateMasterList;
+        req = serviceUpdateCityAssocList;
       }
       req(fd).then((res) => {
         LogUtils.log("response", res);
@@ -208,4 +211,4 @@ const useStateFedCreate = ({}) => {
   };
 };
 
-export default useStateFedCreate;
+export default useCityAssCreate;
