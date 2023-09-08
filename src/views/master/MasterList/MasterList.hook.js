@@ -146,10 +146,10 @@ const useMasterList = ({}) => {
   const configFilter = useMemo(() => {
     return [
       {
-        label: "Financial year",
-        name: "fy_year",
+        label: "Status",
+        name: "status",
         type: "select",
-        fields: ["2023-2024"],
+        fields: ["ACTIVE", "INACTIVE"],
       },
     ];
   }, [listData]);
