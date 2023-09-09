@@ -73,7 +73,7 @@ class File extends Component {
 
 
     render() {
-        const {value, children, multiple, accept, error, placeholder,name,component,user_image, title, show_image, default_image,banner, link, circular} = this.props;
+        const {value, children, multiple, accept, error, placeholder,name,component,user_image, title, show_image, default_image,banner, link, circular,bannerLabel} = this.props;
         let tempPlaceHolder = this.props.placeholder;
         if (value != '' && value !== null) {
             if (value instanceof Object && !Array.isArray(value)) {
@@ -82,7 +82,7 @@ class File extends Component {
                 tempPlaceHolder = value?.length + ' Selected';
             }
         }
-        if (show_image && !multiple) {
+        if (show_image && !multiple && !bannerLabel) {
             return (
                 <div>
                     <div className={styles.imageBtnContainer}>
@@ -107,7 +107,31 @@ class File extends Component {
                 </div>
             );
         }
-
+        if(bannerLabel && !multiple){
+            return (
+                <div>
+                <div className={styles.imageBtnContainerShow}>
+                    <div>
+                        <div className={csx(styles.imagePlusShow, this.props.imageClass)} style={{ backgroundImage: "url("+(this._getImageUrl(value))+")",
+                            backgroundSize: 'cover', backgroundPosition: 'center',borderColor: (error ? 'red' : '#c2c2c2')}}></div>
+                    </div>
+                    <div className={styles.imgLowerContainer}>
+                        <div className={styles.imgFileLabelPlusShow}>
+                            <span className={styles.plus}>{!value && !default_image ? '+' :''}</span>
+                            <div className={styles.textUpload} style={error ? {} : {}}>{!value  && !default_image ? bannerLabel :''}</div></div>
+                        <input multiple={multiple} id="upload" data-value={'JPG'} accept={accept ? accept : 'image/*'}
+                               onChange={this._handleFileChange}
+                               className={styles.fileInput}
+                               type="file"/>
+                    </div>
+                    {/*<label style={{fontSize:'14px',fontWeight:'500'}}>{this.props.placeholder}</label>*/}
+                </div>
+                <div className={styles.tooltipFlex}>
+                    <span className={styles.tipText}>{title ? title : ''}</span>
+                </div>
+            </div>
+            )
+        }
         if (circular && !multiple) {
             return (
                 <div>

@@ -63,6 +63,10 @@
     width: 100px;
     position: relative;
 }
+.imageBtnContainerShow{
+    width: 250px;
+    position: relative;
+}
 
 .imageBtnContainerNew{
     width: 100%;
@@ -176,6 +180,13 @@
     border: 1px solid #c2c2c275;
     background-color: #f6f7ff;
 }
+.imagePlusShow{
+    width: 250px;
+    height: 250px;
+    display: inline-block;
+    border: 1px solid #c2c2c275;
+    background-color: #f6f7ff;
+}
 
 .imagePlusNew{
     width: 100%;
@@ -187,6 +198,14 @@
     background-color: #f6f7ff;
 }
 
+.imgFileLabelPlusShow{
+    position: absolute;
+    top: 95px;
+    left: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .imgFileLabelPlus{
     position: absolute;
     top: 30px;
@@ -195,7 +214,6 @@
     flex-direction: column;
     align-items: center;
 }
-
 .plus{
     color: #9699b0;
     font-size: 24px;

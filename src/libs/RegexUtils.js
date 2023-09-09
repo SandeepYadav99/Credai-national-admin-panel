@@ -55,6 +55,9 @@ const IsVehicleNo=(value)=>{
 function validateUrl(value) {
     return /^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(value);
   }
+function HexCodeValid(value){
+    return /^#([0-9A-Fa-f]{3}){1,2}$/.test(value)
+}
 export {
     isUrl,
     isEmail,
@@ -68,5 +71,6 @@ export {
     isAccountNum,
     IsVehicleNo,
     validateUrl,
-    isNumDec
+    isNumDec,
+    HexCodeValid
 };
