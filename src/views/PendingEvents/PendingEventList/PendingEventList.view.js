@@ -16,12 +16,12 @@ import DataTables from "../../../Datatables/Datatable.table";
 import Constants from "../../../config/constants";
 import FilterComponent from "../../../components/Filter/Filter.component";
 import StatusPill from "../../../components/Status/StatusPill.component";
-import useEventList from "./EventList.hook";
 import { Add, InfoOutlined } from "@material-ui/icons";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import PeopleOutlineOutlinedIcon from "@material-ui/icons/PeopleOutlineOutlined";
+import usePendingEventList from "./PendingEventList.hook";
 
-const EventList = ({}) => {
+const PendingEventList = ({}) => {
   const {
     handleSortOrderChange,
     handleRowSize,
@@ -38,21 +38,20 @@ const EventList = ({}) => {
     warehouses,
     handleCreateFed,
     handleViewUpdate,
-  } = useEventList({});
+  } = usePendingEventList({});
 
   const {
     data,
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.event_list);
+  } = useSelector((state) => state.pending_event_list);
 
   const renderFirstCell = useCallback((obj) => {
     if (obj) {
       return (
         <div className={styles.firstCellFlex}>
-          <img src={obj?.banner} alt="BannerImg"/>
-            <div className={styles.productName}>{obj?.name}</div>
+          <img src={obj?.banner} alt="BannerImg" />
         </div>
       );
     }
@@ -62,44 +61,56 @@ const EventList = ({}) => {
   const tableStructure = useMemo(() => {
     return [
       {
-        key: "event",
-        label: "Event",
+        key: "created",
+        label: "CREATED BY",
         sortable: true,
         render: (value, all) => (
           <div>
-            {renderFirstCell(all)}
+            <b>{all?.createdBy?.name}</b>
+            <br />
+            {all?.createdBy?.full_contact}
           </div>
         ),
       },
       {
-        key: "org",
-        label: "ORGANISED BY",
+        key: "for",
+        label: "CREATED FOR",
         sortable: false,
-        render: (temp, all) => <div>{all?.organisedBy?.name}</div>,
+        render: (temp, all) => <div>{all?.organdsadisedBy?.name}</div>,
       },
       {
-        key: "location",
-        label: "LOCATION",
+        key: "name",
+        label: "EVENT NAME",
         sortable: false,
-        render: (temp, all) => <div>{all?.location}</div>,
+        render: (temp, all) => <div>{all?.dsd}</div>,
       },
       {
-        key: "start",
-        label: "START DATE",
+        key: "date",
+        label: "EVENT DATES",
         sortable: false,
-        render: (temp, all) => <div>{all?.startDateText}</div>,
+        render: (temp, all) => (
+          <div>
+            {all?.startDateText}-{all?.endDateText}
+          </div>
+        ),
       },
       {
-        key: "end",
-        label: "END DATE",
+        key: "logo",
+        label: "LOGO",
         sortable: false,
-        render: (temp, all) => <div>{all?.endDateText}</div>,
+        render: (temp, all) => <div>{renderFirstCell(all)}</div>,
       },
       {
-        key: "created",
-        label: "CREATED ON",
+        key: "approved",
+        label: "APPROVED BY",
         sortable: false,
-        render: (temp, all) => <div>{all?.createdAtText}</div>,
+        render: (temp, all) => (
+          <div>
+            <b>{all?.approvedBy?.name}</b>
+            <br />
+            {all?.approvedBy?.full_contact}
+          </div>
+        ),
       },
       {
         key: "status",
@@ -122,16 +133,6 @@ const EventList = ({}) => {
               }}
             >
               <InfoOutlined fontSize={"small"} />
-            </IconButton>
-            <IconButton
-              className={"tableActionBtn"}
-              color="secondary"
-              disabled={isCalling}
-              // onClick={() => {
-              //   handleViewUpdate(all);
-              // }}
-            >
-              <PeopleOutlineOutlinedIcon fontSize={"small"} />
             </IconButton>
           </div>
         ),
@@ -170,7 +171,7 @@ const EventList = ({}) => {
       <PageBox>
         <div className={styles.headerContainer}>
           <div>
-            <span className={styles.title}>Event List</span>
+            <span className={styles.title}>Event Approval List</span>
             <div className={styles.newLine} />
           </div>
           <div className={styles.BtnWrapper}>
@@ -203,4 +204,4 @@ const EventList = ({}) => {
   );
 };
 
-export default EventList;
+export default PendingEventList;

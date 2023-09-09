@@ -39,4 +39,6 @@ export default {
   EVENTS_CREATE: "/event/create",
   EVENTS_UPDATE: "/event/update/",
   EVENTS_DETAILS: "/event/details/",
+
+  PENDING_EVENTS:'/pending/events'
 };
