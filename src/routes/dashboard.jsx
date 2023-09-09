@@ -17,6 +17,7 @@ import CityAssCreate from "../views/master/CityAssCreate/CityAssCreate.view";
 import EventList from "../views/Events/EventList/EventList.view";
 import EventCreate from "../views/Events/EventCreate/EventCreate.view";
 import PendingEventList from "../views/PendingEvents/PendingEventList/PendingEventList.view";
+import PendingEventDetail from "../views/PendingEvents/PendingEventDetail/PendingEventDetail.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -151,6 +152,16 @@ const dashboardRoutes = [
     is_sidebar: true,
     is_protect: true,
   },
+  {
+    path: `${RouteName.PENDING_EVENTS_DETAILS}:id`,
+    sidebarName: "Pending Events Approval",
+    navbarName: "Pending Events Approval",
+    icon: PeopleOutlined,
+    component: PendingEventDetail,
+    is_sidebar: false,
+    is_protect: true,
+  },
+
 ];
 
 export default dashboardRoutes;

@@ -130,7 +130,7 @@ const usePendingPendingEventList = ({}) => {
 
   const handleViewDetails = useCallback((data) => {
     LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.CITY_ASSOCIATION_LIST}${data?.id}`); //+data.id
+    historyUtils.push(`${RouteName.PENDING_EVENTS_DETAILS}${data?.id}`); //+data.id
   }, []);
 
   const handleCreateFed = useCallback((data) => {

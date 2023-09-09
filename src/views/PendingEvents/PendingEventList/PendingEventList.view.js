@@ -129,7 +129,7 @@ const PendingEventList = ({}) => {
               color="secondary"
               disabled={isCalling}
               onClick={() => {
-                handleViewUpdate(all);
+                handleViewDetails(all);
               }}
             >
               <InfoOutlined fontSize={"small"} />
@@ -173,12 +173,6 @@ const PendingEventList = ({}) => {
           <div>
             <span className={styles.title}>Event Approval List</span>
             <div className={styles.newLine} />
-          </div>
-          <div className={styles.BtnWrapper}>
-            <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
-              ADD Event
-              <Add fontSize={"small"} className={"plusIcon"}></Add>
-            </ButtonBase>
           </div>
         </div>
 
