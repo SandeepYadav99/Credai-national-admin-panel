@@ -17,6 +17,7 @@ import Constants from "../../config/constants";
 import FilterComponent from "../../components/Filter/Filter.component";
 import StatusPill from "../../components/Status/StatusPill.component";
 import useMemberList from "./MemberList.hook";
+import { Add } from "@material-ui/icons";
 
 const MemberList = ({}) => {
   const {
@@ -151,8 +152,9 @@ const MemberList = ({}) => {
             <div className={styles.newLine} />
           </div>
           <div className={styles.rightFlex}>
-            <ButtonBase className={styles.download} onClick={handleCsvDownload}>
+            <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
               Create
+              <Add fontSize={"small"} className={"plusIcon"}></Add>
             </ButtonBase>
           </div>
         </div>

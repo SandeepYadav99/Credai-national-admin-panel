@@ -130,7 +130,7 @@ const useMemberList = ({}) => {
 
   const handleCreateFed = useCallback((data) => {
     LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.STATE_FEDERATION_CREATE}`); //+data.id
+    historyUtils.push(`${RouteName.MEMBERS_CREATE}`); //+data.id
   }, []);
 
   const configFilter = useMemo(() => {
