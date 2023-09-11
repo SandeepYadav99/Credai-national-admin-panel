@@ -12,6 +12,7 @@ import MemberListReducer from "./MemberList.reducer";
 import CityAssocListReducer from "./CityAssocList.reducer";
 import EventListReducer from "./EventList.reducer";
 import PendingEventListReducer from "./PendingEventList.reducer";
+import LeadMemberListReducer from "./LeadMemberList.reducer";
 
 const rootReducer = combineReducers({
   state: (state = {}) => state,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   master_list:MasterListReducer,
   adminUser:AdminUserReducer,
   member_list:MemberListReducer,
+  lead_member_list:LeadMemberListReducer,
   city_assoc_list:CityAssocListReducer,
   event_list:EventListReducer,
   pending_event_list:PendingEventListReducer
