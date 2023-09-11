@@ -21,7 +21,7 @@ import RouteName from "../../../routes/Route.name";
 
 const initialForm = {
   name: "",
-  country_code: "91",
+  // country_code: "91",
   contact: "",
   email: "",
   password: "",
@@ -90,7 +90,7 @@ const useAdminCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
     const errors = { ...errorData };
     let required = [
       "name",
-      "country_code",
+      // "country_code",
       "contact",
       "email",
       "password",
@@ -125,6 +125,8 @@ const useAdminCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       Object.keys(form).forEach((key) => {
         if (key === "status") {
           fd.append(key, form[key] ? "ACTIVE" : "INACTIVE");
+        } else if (key === "contact") {
+          fd.append(key, form[key].replace(/\+/g, ""));
         } else {
           fd.append(key, form[key]);
         }
