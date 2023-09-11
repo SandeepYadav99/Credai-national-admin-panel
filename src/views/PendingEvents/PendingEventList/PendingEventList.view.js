@@ -76,13 +76,13 @@ const PendingEventList = ({}) => {
         key: "for",
         label: "CREATED FOR",
         sortable: false,
-        render: (temp, all) => <div>{all?.organdsadisedBy?.name}</div>,
+        render: (temp, all) => <div>{all?.organisedBy?.name}</div>,
       },
       {
         key: "name",
         label: "EVENT NAME",
         sortable: false,
-        render: (temp, all) => <div>{all?.dsd}</div>,
+        render: (temp, all) => <div>{all?.name}</div>,
       },
       {
         key: "date",
