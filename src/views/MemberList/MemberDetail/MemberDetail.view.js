@@ -8,6 +8,8 @@ import { useMemo } from "react";
 import Constants from "../../../config/constants";
 import DataTables from "../../../Datatables/Datatable.table";
 import UpperMemberInfo from "./component/UpperMemberInfo/UpperMemberInfo";
+import AddUserDialog from "./component/AddUserDialog/AddUserDialog.view";
+import { Add } from "@material-ui/icons";
 
 function MemberDetail() {
   const {
@@ -31,7 +33,6 @@ function MemberDetail() {
         sortable: false,
         render: (temp, all) => (
           <div className={styles.squareDiv}>
-            {console.log("all", all)}
             {all?.name}
           </div>
         ),
@@ -40,19 +41,19 @@ function MemberDetail() {
         key: "email",
         label: "email",
         sortable: false,
-        render: (value, all) => <div>{all?.department?.name}</div>,
+        render: (value, all) => <div>{all?.email}</div>,
       },
       {
         key: "designation",
         label: "DESIGNATION",
         sortable: false,
-        render: (value, all) => <div>{all?.department?.name}</div>,
+        render: (value, all) => <div>{all?.title}</div>,
       },
       {
         key: "no",
         label: "phone number",
         sortable: false,
-        render: (value, all) => <div></div>,
+        render: (value, all) => <div>{all?.full_contact}</div>,
       },
     ];
   }, []);
@@ -65,7 +66,6 @@ function MemberDetail() {
         sortable: false,
         render: (temp, all) => (
           <div className={styles.squareDiv}>
-            {console.log("all", all)}
             {all?.name}
           </div>
         ),
@@ -80,7 +80,7 @@ function MemberDetail() {
         key: "city_code",
         label: "CITY CODE",
         sortable: false,
-        render: (value, all) => <div>{all?.department?.name}</div>,
+        render: (value, all) => <div>{all?.code}</div>,
       },
     ];
   }, []);
@@ -95,7 +95,7 @@ function MemberDetail() {
     const datatable = {
       ...Constants.DATATABLE_PROPERTIES,
       columns: tableStructure,
-      data: allData,
+      data: userData,
       hidePagination: true,
     };
 
@@ -105,7 +105,7 @@ function MemberDetail() {
     handleSortOrderChange,
     handlePageChange,
     handleRowSize,
-    allData,
+    userData,
   ]);
 
   const tableData2 = useMemo(() => {
@@ -118,7 +118,7 @@ function MemberDetail() {
     const datatable = {
       ...Constants.DATATABLE_PROPERTIES,
       columns: tableStructure2,
-      data: userData,
+      data: allData,
       hidePagination: true,
     };
 
@@ -128,7 +128,7 @@ function MemberDetail() {
     handleSortOrderChange,
     handlePageChange,
     handleRowSize,
-    userData,
+    allData,
   ]);
   return (
     <div className={styles.claimListWrapper}>
@@ -143,6 +143,7 @@ function MemberDetail() {
           <div className={styles.newLine} />
         </div>
       </div>
+      <AddUserDialog isOpen={isApprovalPopUp} handleToggle={toggleApprovalDialog}/>
       <UpperMemberInfo data={otherData?.details} />
       <div className={styles.plainPaper}>
         <div className={styles.editFlex}>
@@ -154,6 +155,7 @@ function MemberDetail() {
               className={styles.createBtn}
             >
               ADD USER
+              <Add fontSize={"small"} className={"plusIcon"}></Add>
             </ButtonBase>
           </div>
         </div>

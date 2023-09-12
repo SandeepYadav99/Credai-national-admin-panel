@@ -24,3 +24,6 @@ export async function serviceDetailsMemberChapter(params) {
 export async function serviceDetailsMemberUsers(params) {
     return await postRequest('members/users', params);
 }
+export async function serviceAddMemberUsers(params) {
+    return await postRequest('members/users/add', params);
+}
