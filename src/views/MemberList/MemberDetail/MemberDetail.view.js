@@ -9,7 +9,7 @@ import Constants from "../../../config/constants";
 import DataTables from "../../../Datatables/Datatable.table";
 import UpperMemberInfo from "./component/UpperMemberInfo/UpperMemberInfo";
 import AddUserDialog from "./component/AddUserDialog/AddUserDialog.view";
-import { Add } from "@material-ui/icons";
+import { Add, Edit } from "@material-ui/icons";
 
 function MemberDetail() {
   const {
@@ -23,6 +23,7 @@ function MemberDetail() {
     handlePageChange,
     userData,
     otherData,
+    formValue
   } = useMemberDetail({});
 
   const tableStructure = useMemo(() => {
@@ -32,9 +33,7 @@ function MemberDetail() {
         label: "NAME",
         sortable: false,
         render: (temp, all) => (
-          <div className={styles.squareDiv}>
-            {all?.name}
-          </div>
+          <div className={styles.squareDiv}>{all?.name}</div>
         ),
       },
       {
@@ -55,6 +54,24 @@ function MemberDetail() {
         sortable: false,
         render: (value, all) => <div>{all?.full_contact}</div>,
       },
+      {
+        key: "action",
+        label: "action",
+        sortable: false,
+        render: (value, all) => (
+          <div>
+            <IconButton
+              className={"tableActionBtn"}
+              color="secondary"
+              onClick={() => {
+                toggleApprovalDialog(all);
+              }}
+            >
+              <Edit fontSize={"small"} />
+            </IconButton>
+          </div>
+        ),
+      },
     ];
   }, []);
 
@@ -65,9 +82,7 @@ function MemberDetail() {
         label: "CITY NAME",
         sortable: false,
         render: (temp, all) => (
-          <div className={styles.squareDiv}>
-            {all?.name}
-          </div>
+          <div className={styles.squareDiv}>{all?.name}</div>
         ),
       },
       {
@@ -143,7 +158,11 @@ function MemberDetail() {
           <div className={styles.newLine} />
         </div>
       </div>
-      <AddUserDialog isOpen={isApprovalPopUp} handleToggle={toggleApprovalDialog}/>
+      <AddUserDialog
+        isOpen={isApprovalPopUp}
+        handleToggle={toggleApprovalDialog}
+        formValue={formValue}
+      />
       <UpperMemberInfo data={otherData?.details} />
       <div className={styles.plainPaper}>
         <div className={styles.editFlex}>

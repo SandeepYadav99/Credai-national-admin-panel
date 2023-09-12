@@ -14,7 +14,7 @@ const initialForm = {
   is_send_sms: false,
   contact: "",
 };
-const useAddUserDialogHook = ({ isOpen, handleToggle, candidateId }) => {
+const useAddUserDialogHook = ({ isOpen, handleToggle, formValue }) => {
   const [form, setForm] = useState(
     JSON.parse(JSON.stringify({ ...initialForm }))
   );
@@ -29,14 +29,23 @@ const useAddUserDialogHook = ({ isOpen, handleToggle, candidateId }) => {
 
   useEffect(() => {
     if (isOpen) {
-      setForm({ ...initialForm });
-      setResData([]);
-      setIsSubmitted(false);
-      setIsVerified(false);
-      setErrorData({});
+      if (formValue?.id) {
+        const obj = {};
+        Object.keys({ ...initialForm }).forEach((item) => {
+          if (item === "contact") {
+            obj[item] = formValue["full_contact"];
+          } else if (item === "is_send_sms") {
+            obj[item] = formValue["is_send_sms"] ? true : false;
+          } else {
+            obj[item] = formValue[item];
+          }
+        });
+        console.log("obj", obj);
+      }
     }
   }, [isOpen]);
 
+  console.log("formValue", formValue);
   const removeError = useCallback(
     (title) => {
       const temp = JSON.parse(JSON.stringify(errorData));
@@ -93,7 +102,7 @@ const useAddUserDialogHook = ({ isOpen, handleToggle, candidateId }) => {
     if (!isSubmitting) {
       setIsSubmitting(true);
       serviceAddMemberUsers({
-        ...form
+        ...form,
       }).then((res) => {
         if (!res.error) {
           SnackbarUtils.success("Request Accepted");
