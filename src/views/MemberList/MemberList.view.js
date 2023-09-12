@@ -94,8 +94,7 @@ const MemberList = ({}) => {
         sortable: false,
         render: (temp, all) => (
           <div>
-            {all?.contact}
-            <br />
+            {all?.code}
           </div>
         ),
       },

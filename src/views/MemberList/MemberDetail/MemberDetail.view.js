@@ -19,8 +19,10 @@ function MemberDetail() {
     handleSortOrderChange,
     handleRowSize,
     handlePageChange,
+    userData,
+    otherData,
   } = useMemberDetail({});
-  const CityData={}
+
   const tableStructure = useMemo(() => {
     return [
       {
@@ -55,6 +57,34 @@ function MemberDetail() {
     ];
   }, []);
 
+  const tableStructure2 = useMemo(() => {
+    return [
+      {
+        key: "city",
+        label: "CITY NAME",
+        sortable: false,
+        render: (temp, all) => (
+          <div className={styles.squareDiv}>
+            {console.log("all", all)}
+            {all?.name}
+          </div>
+        ),
+      },
+      {
+        key: "state",
+        label: "STATE FEDERATION",
+        sortable: false,
+        render: (value, all) => <div>{all?.department?.name}</div>,
+      },
+      {
+        key: "city_code",
+        label: "CITY CODE",
+        sortable: false,
+        render: (value, all) => <div>{all?.department?.name}</div>,
+      },
+    ];
+  }, []);
+
   const tableData = useMemo(() => {
     const datatableFunctions = {
       onSortOrderChange: handleSortOrderChange,
@@ -77,6 +107,29 @@ function MemberDetail() {
     handleRowSize,
     allData,
   ]);
+
+  const tableData2 = useMemo(() => {
+    const datatableFunctions = {
+      onSortOrderChange: handleSortOrderChange,
+      onPageChange: handlePageChange,
+      onRowSizeChange: handleRowSize,
+    };
+
+    const datatable = {
+      ...Constants.DATATABLE_PROPERTIES,
+      columns: tableStructure2,
+      data: userData,
+      hidePagination: true,
+    };
+
+    return { datatableFunctions, datatable };
+  }, [
+    tableStructure2,
+    handleSortOrderChange,
+    handlePageChange,
+    handleRowSize,
+    userData,
+  ]);
   return (
     <div className={styles.claimListWrapper}>
       <div className={styles.outerFlex}>
@@ -90,7 +143,7 @@ function MemberDetail() {
           <div className={styles.newLine} />
         </div>
       </div>
-      <UpperMemberInfo data={CityData} />
+      <UpperMemberInfo data={otherData?.details} />
       <div className={styles.plainPaper}>
         <div className={styles.editFlex}>
           <div className={styles.heading}>Associated Users</div>
@@ -109,6 +162,19 @@ function MemberDetail() {
           <DataTables
             {...tableData.datatable}
             {...tableData.datatableFunctions}
+          />
+        </div>
+      </div>
+
+      <div className={styles.plainPaper}>
+        <div className={styles.editFlex}>
+          <div className={styles.heading}>Associated Associations</div>
+        </div>
+        <br />
+        <div style={{ width: "100%" }}>
+          <DataTables
+            {...tableData2.datatable}
+            {...tableData2.datatableFunctions}
           />
         </div>
       </div>

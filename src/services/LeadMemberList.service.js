@@ -22,3 +22,9 @@ export async function serviceGetLeadMemberList(params) {
 export async function serviceDetailsLeadMemberList(params) {
   return await postRequest("leads/details", params);
 }
+export async function serviceAcceptLeadMemberList(params) {
+  return await postRequest("leads/approve", params);
+}
+export async function serviceRejectLeadMemberList(params) {
+  return await postRequest("leads/reject", params);
+}

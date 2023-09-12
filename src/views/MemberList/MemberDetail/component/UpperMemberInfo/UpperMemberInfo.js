@@ -13,6 +13,7 @@ function UpperMemberInfo({ data }) {
               <img
                 className={styles.claimimg}
                 src={data?.image && data?.image}
+                alt="Image"
               />
             </div>
             <div>
@@ -30,7 +31,13 @@ function UpperMemberInfo({ data }) {
           <div className={styles.left}>
             <div className={styles.key}>
               <span className={styles.value}>Website:</span>
-              {data?.admin?.name}
+              <a
+                href={data?.url}
+                target="_blank"
+                className={styles.hyperlinkText}
+              >
+                {data?.url}
+              </a>
             </div>
           </div>
         </div>

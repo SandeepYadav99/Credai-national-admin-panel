@@ -126,6 +126,14 @@
   margin-left: 1px;
   background-image: linear-gradient(265deg, #ab183d, #e56056) !important;
 }
+.subText{
+  font-size: .75rem;
+  font-weight: 500;
+  margin-left: 10px;
+}
+.rejct{
+  height: 20px;
+}
 .btnWrap {
   display: flex;
   align-items: center;

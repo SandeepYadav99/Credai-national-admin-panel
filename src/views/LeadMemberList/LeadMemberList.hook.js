@@ -11,9 +11,15 @@ import historyUtils from "../../libs/history.utils";
 import LogUtils from "../../libs/LogUtils";
 import RouteName from "../../routes/Route.name";
 import { serviceGetList } from "../../services/index.services";
+import { serviceRejectLeadMemberList } from "../../services/LeadMemberList.service";
+import SnackbarUtils from "../../libs/SnackbarUtils";
 
 const useLeadMemberList = ({}) => {
   const [isCalling, setIsCalling] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRejectPopUp, setIsRejectPopUp] = useState(false);
+  const [isAcceptPopUp, setIsAcceptPopUp] = useState(false);
+  const [dataValue, setDataValue] = useState({});
   const [editData, setEditData] = useState(null);
   const [listData, setListData] = useState({
     LOCATIONS: [],
@@ -25,7 +31,7 @@ const useLeadMemberList = ({}) => {
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.member_list);
+  } = useSelector((state) => state.lead_member_list);
   useEffect(() => {
     dispatch(
       actionFetchLeadMemberList(1, sortingData, {
@@ -43,11 +49,42 @@ const useLeadMemberList = ({}) => {
       }
     });
   }, []);
-  console.log("list", listData);
+
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
     dispatch(actionSetPageLeadMemberList(type));
   }, []);
+
+  const toggleRejectDialog = useCallback(
+    (obj) => {
+      setIsRejectPopUp((e) => !e);
+      setDataValue({ ...obj });
+    },
+    [isRejectPopUp, setDataValue]
+  );
+
+  const handleRejectApi = useCallback(() => {
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      serviceRejectLeadMemberList({ lead_id: dataValue?.id }).then((res) => {
+        if (!res.error) {
+          SnackbarUtils.success("Rejected Successfully");
+          window.location.reload()
+        } else {
+          SnackbarUtils.error(res?.message);
+        }
+        setIsSubmitting(false);
+      });
+    }
+  }, [setIsSubmitting, isSubmitting, dataValue]);
+
+  const toggleAcceptDialog = useCallback(
+    (obj) => {
+      setIsAcceptPopUp((e) => !e);
+      setDataValue({ ...obj });
+    },
+    [isAcceptPopUp, setDataValue]
+  );
 
   const handleDataSave = useCallback(
     (data, type) => {
@@ -170,6 +207,12 @@ const useLeadMemberList = ({}) => {
     isCalling,
     editData,
     configFilter,
+    toggleRejectDialog,
+    toggleAcceptDialog,
+    isRejectPopUp,
+    isAcceptPopUp,
+    dataValue,
+    handleRejectApi,
   };
 };
 

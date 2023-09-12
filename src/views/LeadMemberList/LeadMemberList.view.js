@@ -17,6 +17,10 @@ import Constants from "../../config/constants";
 import FilterComponent from "../../components/Filter/Filter.component";
 import StatusPill from "../../components/Status/StatusPill.component";
 import useLeadMemberList from "./LeadMemberList.hook";
+import rejectPng from "../../assets/img/ic_reject@2x.png";
+import acceptPng from "../../assets/img/ic_approve@2x.png";
+import AcceptDialog from "./Component/AcceptPopUp/AcceptDialog.view";
+import RejectDialog from "./Component/RejectedPopUp/RejectDialog";
 
 const LeadMemberList = ({}) => {
   const {
@@ -29,10 +33,14 @@ const LeadMemberList = ({}) => {
     handleFilterDataChange,
     handleSearchValueChange,
     handleCreateFed,
-    editData,
     isCalling,
     configFilter,
-    warehouses,
+    toggleRejectDialog,
+    toggleAcceptDialog,
+    isRejectPopUp,
+    isAcceptPopUp,
+    dataValue,
+    handleRejectApi,
   } = useLeadMemberList({});
 
   const {
@@ -40,7 +48,7 @@ const LeadMemberList = ({}) => {
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.lead_member_list);
 
   const renderStatus = useCallback((status) => {
     return (
@@ -51,55 +59,45 @@ const LeadMemberList = ({}) => {
     );
   }, []);
 
-  const renderFirstCell = useCallback((obj) => {
-    if (obj) {
-      return (
-        <div className={styles.firstCellFlex}>
-          <div className={classNames(styles.firstCellInfo, "openSans")}>
-            <span className={styles.productName}>{obj?.employee?.name}</span>{" "}
-            <br />
-            <span className={styles.productName}>
-              {obj?.employee?.emp_code}
-            </span>{" "}
-            <br />
-          </div>
-        </div>
-      );
-    }
-    return null;
-  }, []);
-
   const tableStructure = useMemo(() => {
     return [
       {
-        key: "code",
-        label: "STATE FEDERATION CODE",
-        sortable: true,
-        render: (value, all) => <div>{renderFirstCell(all)}</div>,
+        key: "name",
+        label: "NAME",
+        sortable: false,
+        render: (temp, all) => <div>{all?.name}</div>,
       },
       {
-        key: "name",
-        label: "STATE FEDERATION NAME",
+        key: "email",
+        label: "email",
+        sortable: false,
+        render: (temp, all) => <div>{all?.email}</div>,
+      },
+      {
+        key: "number",
+        label: "phone number",
+        sortable: false,
+        render: (temp, all) => <div>{all?.contact}</div>,
+      },
+      {
+        key: "company",
+        label: "member company",
+        sortable: false,
+        render: (temp, all) => <div>{all?.company_name}</div>,
+      },
+      {
+        key: "chapter",
+        label: "CHAPTER ASSOCIATED",
         sortable: false,
         render: (temp, all) => (
-          <div>
-            {all?.contact}
-            <br />
-            {`${all?.grade?.code}/${all?.cadre?.code}`}
-          </div>
+          <div>{all?.chapter?.name ? all?.chapter?.name : "-"}</div>
         ),
       },
       {
-        key: "created",
-        label: "CREATED ON",
+        key: "on",
+        label: "REQUESTED ON",
         sortable: false,
-        render: (temp, all) => <div>{all?.location?.name}</div>,
-      },
-      {
-        key: "status",
-        label: "STATUS",
-        sortable: false,
-        render: (temp, all) => <div>{all?.designation?.name}</div>,
+        render: (temp, all) => <div>{all?.createdAtText}</div>,
       },
       {
         key: "action",
@@ -107,12 +105,33 @@ const LeadMemberList = ({}) => {
         sortable: false,
         render: (temp, all) => (
           <div>
-            {all?.department?.name} / {all?.sub_department?.name}
+            <IconButton
+              className={"tableActionBtnSuccess"}
+              color="secondary"
+              disabled={isCalling}
+              onClick={() => {
+                toggleAcceptDialog(all);
+              }}
+            >
+              <img src={acceptPng} className={styles.rejct} />
+              <div className={styles.subText}>APPROVE</div>
+            </IconButton>
+            <IconButton
+              className={"tableActionBtnError"}
+              color="error"
+              disabled={isCalling}
+              onClick={() => {
+                toggleRejectDialog(all);
+              }}
+            >
+              <img src={rejectPng} className={styles.rejct} />
+              <div className={styles.subText}>REJECT</div>
+            </IconButton>
           </div>
         ),
       },
     ];
-  }, [renderStatus, renderFirstCell, handleEdit, isCalling]);
+  }, [renderStatus, handleEdit, isCalling]);
 
   const tableData = useMemo(() => {
     const datatableFunctions = {
@@ -150,7 +169,16 @@ const LeadMemberList = ({}) => {
             <div className={styles.newLine} />
           </div>
         </div>
-
+        <AcceptDialog
+          isOpen={isAcceptPopUp}
+          handleToggle={toggleAcceptDialog}
+          candidateId={dataValue}
+        />
+        <RejectDialog
+          handleConfirm={handleRejectApi}
+          handleDialog={toggleRejectDialog}
+          isOpen={isRejectPopUp}
+        />
         <div>
           <FilterComponent
             is_progress={isFetching}
