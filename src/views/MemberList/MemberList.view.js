@@ -85,7 +85,7 @@ const MemberList = ({}) => {
       {
         key: "company",
         label: "MEMBER COMPANY",
-        sortable: true,
+        sortable: false,
         render: (value, all) => <div>{renderFirstCell(all)}</div>,
       },
       {
