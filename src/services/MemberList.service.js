@@ -27,3 +27,6 @@ export async function serviceDetailsMemberUsers(params) {
 export async function serviceAddMemberUsers(params) {
     return await postRequest('members/users/add', params);
 }
+export async function serviceUpdateMemberUsers(params) {
+    return await postRequest('members/users/update', params);
+}

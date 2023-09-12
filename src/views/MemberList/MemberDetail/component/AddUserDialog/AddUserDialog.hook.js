@@ -5,7 +5,8 @@ import RouteName from "../../../../../routes/Route.name";
 import { serviceGetList } from "../../../../../services/index.services";
 import { serviceAcceptLeadMemberList } from "../../../../../services/LeadMemberList.service";
 import { isEmail } from "../../../../../libs/RegexUtils";
-import { serviceAddMemberUsers } from "../../../../../services/MemberList.service";
+import { serviceAddMemberUsers, serviceUpdateMemberUsers } from "../../../../../services/MemberList.service";
+import { useParams } from "react-router";
 
 const initialForm = {
   name: "",
@@ -26,11 +27,13 @@ const useAddUserDialogHook = ({ isOpen, handleToggle, formValue }) => {
   const [listData, setListData] = useState({
     MEMBERS: [],
   });
+  const { id } = useParams();
 
+  console.log('id',id)
   useEffect(() => {
     if (isOpen) {
       if (formValue?.id) {
-        const obj = {};
+        const obj = {id:formValue?.id};
         Object.keys({ ...initialForm }).forEach((item) => {
           if (item === "contact") {
             obj[item] = formValue["full_contact"];
@@ -40,7 +43,7 @@ const useAddUserDialogHook = ({ isOpen, handleToggle, formValue }) => {
             obj[item] = formValue[item];
           }
         });
-        console.log("obj", obj);
+        setForm({...form,...obj})
       }
     }
   }, [isOpen]);
@@ -101,9 +104,13 @@ const useAddUserDialogHook = ({ isOpen, handleToggle, formValue }) => {
   const submitToServer = useCallback(() => {
     if (!isSubmitting) {
       setIsSubmitting(true);
-      serviceAddMemberUsers({
-        ...form,
-      }).then((res) => {
+      let req;
+      if (formValue?.id) {
+        req = serviceUpdateMemberUsers({ ...form, member_id: id ? id : "" });
+      } else {
+        req = serviceAddMemberUsers({ ...form,member_id: id ? id :"" });
+      }
+      req.then((res) => {
         if (!res.error) {
           SnackbarUtils.success("Request Accepted");
           handleToggle();
