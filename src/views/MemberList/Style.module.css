@@ -51,7 +51,14 @@
   /*border-radius: 50%;*/
 }
 .firstCellInfo {
-  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hyperlinkText {
+  color: #ab183d;
+  text-decoration-line: underline;
+  cursor: pointer;
 }
 
 .headerFlex {

@@ -133,6 +133,11 @@ const useMemberList = ({}) => {
     historyUtils.push(`${RouteName.MEMBERS_CREATE}`); //+data.id
   }, []);
 
+  const handleViewUpdate = useCallback((data) => {
+    LogUtils.log("data", data);
+    historyUtils.push(`${RouteName.MEMBERS_DETAILS}${data?.id}`); //+data.id
+  }, []);
+  
   const configFilter = useMemo(() => {
     return [
       {
@@ -170,6 +175,7 @@ const useMemberList = ({}) => {
     isCalling,
     editData,
     configFilter,
+    handleViewUpdate
   };
 };
 

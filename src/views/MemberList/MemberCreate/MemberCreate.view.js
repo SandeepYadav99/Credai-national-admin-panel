@@ -219,19 +219,27 @@ function MemberCreate() {
           </div>
         </div>
         <div className={"formGroup"}>
-            <CustomCheckbox
+          <CustomCheckbox
             className={styles.checkbo}
-              color={"primary"}
-              handleChange={(text) => {
-                changeTextData(
-                  !form?.is_access_invite,
-                  "is_access_invite"
-                );
-              }}
-              label={"Send Access Invite to Member User"}
-              checked={form?.is_access_invite}
-            />
-          </div>
+            color={"primary"}
+            handleChange={(text) => {
+              changeTextData(!form?.is_access_invite, "is_access_invite");
+            }}
+            label={"Send Access Invite to Member User"}
+            checked={form?.is_access_invite}
+          />
+        </div>
+        {/* <div className={"formGroup"}>
+          <CustomCheckbox
+            className={styles.checkbo}
+            color={"primary"}
+            handleChange={(text) => {
+              changeTextData(!form?.is_access_invite, "is_access_invite");
+            }}
+            label={"Send Access Invite to Member User"}
+            checked={form?.is_access_invite}
+          />
+        </div> */}
         <div className={styles.btnWrappepr}>
           <ButtonBase
             disabled={isSubmitting ? true : false}

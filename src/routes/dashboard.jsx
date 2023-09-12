@@ -20,6 +20,7 @@ import PendingEventList from "../views/PendingEvents/PendingEventList/PendingEve
 import PendingEventDetail from "../views/PendingEvents/PendingEventDetail/PendingEventDetail.view";
 import LeadMemberList from "../views/LeadMemberList/LeadMemberList.view";
 import MemberCreate from "../views/MemberList/MemberCreate/MemberCreate.view";
+import MemberDetail from "../views/MemberList/MemberDetail/MemberDetail.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -109,7 +110,15 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
-
+  {
+    path: `${RouteName.MEMBERS_DETAILS}:id`,
+    sidebarName: "Members List",
+    navbarName: "Members List",
+    icon: PeopleOutlined,
+    component: MemberDetail,
+    is_sidebar: false,
+    is_protect: true,
+  },
   {
     path: `${RouteName.NEW_MEMBERS}`,
     sidebarName: "Members Users Request",

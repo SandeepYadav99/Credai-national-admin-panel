@@ -17,7 +17,7 @@ import Constants from "../../config/constants";
 import FilterComponent from "../../components/Filter/Filter.component";
 import StatusPill from "../../components/Status/StatusPill.component";
 import useMemberList from "./MemberList.hook";
-import { Add } from "@material-ui/icons";
+import { Add, InfoOutlined } from "@material-ui/icons";
 
 const MemberList = ({}) => {
   const {
@@ -35,6 +35,7 @@ const MemberList = ({}) => {
     configFilter,
     warehouses,
     handleCsvDownload,
+    handleViewUpdate
   } = useMemberList({});
 
   const {
@@ -42,7 +43,7 @@ const MemberList = ({}) => {
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.member_list);
 
   const renderStatus = useCallback((status) => {
     return (
@@ -57,13 +58,21 @@ const MemberList = ({}) => {
     if (obj) {
       return (
         <div className={styles.firstCellFlex}>
-          <div className={classNames(styles.firstCellInfo, "openSans")}>
-            <span className={styles.productName}>{obj?.employee?.name}</span>{" "}
-            <br />
-            <span className={styles.productName}>
-              {obj?.employee?.emp_code}
-            </span>{" "}
-            <br />
+          <div className={styles.firstCellInfo}>
+            <div>
+              <img src={obj?.image} />
+            </div>
+            <div>
+              <span className={styles.productName}>{obj?.name}</span> <br />
+              <a
+                href={obj?.url}
+                target="_blank"
+                className={styles.hyperlinkText}
+              >
+                {obj?.url}
+              </a>
+              {/* <span >{obj?.url}</span> <br /> */}
+            </div>
           </div>
         </div>
       );
@@ -74,26 +83,31 @@ const MemberList = ({}) => {
   const tableStructure = useMemo(() => {
     return [
       {
-        key: "code",
-        label: "STATE FEDERATION CODE",
+        key: "company",
+        label: "MEMBER COMPANY",
         sortable: true,
         render: (value, all) => <div>{renderFirstCell(all)}</div>,
       },
       {
-        key: "name",
-        label: "STATE FEDERATION NAME",
+        key: "id",
+        label: "MEMBER ID",
         sortable: false,
         render: (temp, all) => (
           <div>
             {all?.contact}
             <br />
-            {`${all?.grade?.code}/${all?.cadre?.code}`}
           </div>
         ),
       },
       {
-        key: "created",
-        label: "CREATED ON",
+        key: "associate",
+        label: "ASSOCIATED CHAPTERS",
+        sortable: false,
+        render: (temp, all) => <div>{all?.location?.name}</div>,
+      },
+      {
+        key: "state",
+        label: "STATE",
         sortable: false,
         render: (temp, all) => <div>{all?.location?.name}</div>,
       },
@@ -101,7 +115,7 @@ const MemberList = ({}) => {
         key: "status",
         label: "STATUS",
         sortable: false,
-        render: (temp, all) => <div>{all?.designation?.name}</div>,
+        render: (temp, all) => <div>{<StatusPill status={all?.status} />}</div>,
       },
       {
         key: "action",
@@ -109,7 +123,16 @@ const MemberList = ({}) => {
         sortable: false,
         render: (temp, all) => (
           <div>
-            {all?.department?.name} / {all?.sub_department?.name}
+            <IconButton
+              className={"tableActionBtn"}
+              color="secondary"
+              disabled={isCalling}
+              onClick={() => {
+                handleViewUpdate(all);
+              }}
+            >
+              <InfoOutlined fontSize={"small"} />
+            </IconButton>
           </div>
         ),
       },

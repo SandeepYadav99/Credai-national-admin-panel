@@ -18,3 +18,6 @@ export async function serviceGetMemberList(params) {
 export async function serviceDetailsMemberList(params) {
     return await postRequest('members/details', params);
 }
+export async function serviceDetailsMemberChapter(params) {
+    return await postRequest('members/chapters', params);
+}
