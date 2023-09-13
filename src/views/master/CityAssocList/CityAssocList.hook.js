@@ -45,7 +45,7 @@ function useCityAssocList() {
       actionFetchCityAssocList(1, sortingData, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
-        parent_id: id,
+        parent_chapter_id: id,
       })
     );
     isMountRef.current = true;
@@ -58,7 +58,6 @@ function useCityAssocList() {
       }
     });
   }, []);
-  console.log("list", listData);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
     dispatch(actionSetPageCityAssocList(type));
@@ -155,7 +154,7 @@ function useCityAssocList() {
   }, [CityData, setCityData]);
 
   const handleViewUpdate = useCallback((data) => {
-    historyUtils.push(`${RouteName.EMPLOYEE_UPDATE}${data?.id}`);
+    historyUtils.push(`${RouteName.CITY_ASSOCIATION_UPDATE}${data?.id}`);
   }, []);
   const configFilter = useMemo(() => {
     return [

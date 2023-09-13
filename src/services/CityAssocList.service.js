@@ -8,7 +8,7 @@ export async function serviceCreateCityAssocList(params) {
   return await formDataRequest("chapters/create", params);
 }
 export async function serviceUpdateCityAssocList(params) {
-  return await postRequest("chapters/update", params);
+  return await formDataRequest("chapters/update", params);
 }
 export async function serviceDeleteCityAssocList(params) {
   return await postRequest("chapters/delete", params);

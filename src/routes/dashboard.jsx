@@ -57,6 +57,15 @@ const dashboardRoutes = [
     is_protect: true,
   },
   {
+    path: `${RouteName.STATE_FEDERATION_UPDATE}:id`,
+    sidebarName: "Chapters Master",
+    navbarName: "Chapters Master",
+    icon: PeopleOutlined,
+    component: StateFedCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
+  {
     path: `${RouteName.NATIONAL_MEMBER_DETAIL}`,
     sidebarName: "National Member",
     navbarName: "National Member",
@@ -83,7 +92,19 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
+<<<<<<< HEAD
 
+=======
+  {
+    path: `${RouteName.CITY_ASSOCIATION_UPDATE}:id`,
+    sidebarName: "Chapters Master",
+    navbarName: "Chapters Master",
+    icon: PeopleOutlined,
+    component: CityAssCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
+>>>>>>> 8715f61bcbca3ce5fcc421a3155d67c3d9f846a1
   {
     path: `${RouteName.ADMIN}`,
     sidebarName: "Admin Users",

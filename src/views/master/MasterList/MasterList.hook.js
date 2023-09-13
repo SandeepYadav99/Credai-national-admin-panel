@@ -43,7 +43,6 @@ const useMasterList = ({}) => {
       }
     });
   }, []);
-  console.log("list", listData);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
     dispatch(actionSetPageMasterList(type));
@@ -142,7 +141,11 @@ const useMasterList = ({}) => {
     LogUtils.log("data", data);
     historyUtils.push(`${RouteName.NATIONAL_MEMBER_DETAIL}`); //+data.id
   }, []);
-
+  const handleUpdate = useCallback((data) => {
+    LogUtils.log("data", data);
+    historyUtils.push(`${RouteName.STATE_FEDERATION_UPDATE}${data?.id}`); //+data.id
+  }, []);
+  
   const configFilter = useMemo(() => {
     return [
       {
@@ -169,6 +172,7 @@ const useMasterList = ({}) => {
     configFilter,
     handleCreateFed,
     ViewNationalDetail,
+    handleUpdate
   };
 };
 

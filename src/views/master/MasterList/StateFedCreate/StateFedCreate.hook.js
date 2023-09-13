@@ -25,13 +25,14 @@ const initialForm = {
   code: "",
   image: "",
   admin_id: "",
-  status: false,
+  status: true,
 };
 
 const useStateFedCreate = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorData, setErrorData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [image, setImage] = useState("");
   const [form, setForm] = useState({ ...initialForm });
   const [isEdit, setIsEdit] = useState(false);
   const codeDebouncer = useDebounce(form?.code, 500);
@@ -45,10 +46,17 @@ const useStateFedCreate = ({}) => {
       serviceGetMasterListDetails({ id: id }).then((res) => {
         if (!res.error) {
           const data = res?.data?.details;
-          setForm({
-            ...data,
-            is_active: data?.status === Constants.GENERAL_STATUS.ACTIVE,
+          const fd = {};
+          Object.keys({ ...initialForm }).forEach((val) => {
+            fd[val] = data[val];
           });
+          setForm({
+            ...form,
+            ...fd,
+            status: fd?.status === Constants.GENERAL_STATUS.ACTIVE,
+            image: "",
+          });
+          setImage(data?.image);
         } else {
           SnackbarUtils.error(res?.message);
           historyUtils.goBack();
@@ -66,18 +74,20 @@ const useStateFedCreate = ({}) => {
   }, []);
 
   const checkCodeValidation = useCallback(() => {
-    serviceCheckMasterList({ code: form?.code }).then((res) => {
-      if (!res.error) {
-        const errors = JSON.parse(JSON.stringify(errorData));
-        if (res.data.is_exists) {
-          errors["code"] = "MasterList Code Exists";
-          setErrorData(errors);
-        } else {
-          delete errors.code;
-          setErrorData(errors);
+    serviceCheckMasterList({ code: form?.code, id: id ? id : "" }).then(
+      (res) => {
+        if (!res.error) {
+          const errors = JSON.parse(JSON.stringify(errorData));
+          if (res.data.is_exists) {
+            errors["code"] = "MasterList Code Exists";
+            setErrorData(errors);
+          } else {
+            delete errors.code;
+            setErrorData(errors);
+          }
         }
       }
-    });
+    );
   }, [errorData, setErrorData, form?.code, id]);
 
   useEffect(() => {
@@ -88,7 +98,10 @@ const useStateFedCreate = ({}) => {
 
   const checkFormValidation = useCallback(() => {
     const errors = { ...errorData };
-    let required = ["name", "code", "image", "admin_id"];
+    let required = ["name", "code", "admin_id"];
+    if(!id){
+      required.push('image')
+    }
     required.forEach((val) => {
       if (
         !form?.[val] ||
@@ -119,6 +132,9 @@ const useStateFedCreate = ({}) => {
       fd.append("status", form?.status ? "ACTIVE" : "INACTIVE");
       if (form?.image) {
         fd.append("image", form?.image);
+      }
+      if(id){
+        fd.append('id',id)
       }
       let req = serviceCreateMasterList;
       if (id) {
@@ -205,6 +221,7 @@ const useStateFedCreate = ({}) => {
     handleReset,
     id,
     listData,
+    image,
   };
 };
 

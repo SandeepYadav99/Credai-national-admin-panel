@@ -39,6 +39,7 @@ const MasterList = ({}) => {
     handleCreateFed,
     ViewNationalDetail,
     handleViewUpdate,
+    handleUpdate
   } = useMasterList({});
 
   const {
@@ -89,7 +90,7 @@ const MasterList = ({}) => {
               color="secondary"
               disabled={isCalling}
               onClick={() => {
-                handleViewUpdate(all);
+                handleUpdate(all);
               }}
             >
               <InfoOutlined fontSize={"small"} />
@@ -156,12 +157,12 @@ const MasterList = ({}) => {
           </div>
           <div className={styles.BtnWrapper}>
             <div className={styles.rightFlex}>
-              <ButtonBase
+              {/* <ButtonBase
                 className={styles.download}
                 onClick={ViewNationalDetail}
               >
                 View National Member
-              </ButtonBase>
+              </ButtonBase> */}
             </div>
             <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
               ADD State Federation
