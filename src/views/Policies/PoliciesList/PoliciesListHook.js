@@ -1,23 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  actionCreateEventList,
-  actionDeleteEventList,
-  actionFetchEventList,
-  actionSetPageEventList,
-  actionUpdateEventList,
-} from "../../../actions/EventList.action";
+  actionCreateAdminUser,
+  actionDeleteAdminUser,
+  actionFetchAdminUser,
+  actionSetPageAdminUser,
+  actionUpdateAdminUser,
+} from "../../../actions/AdminUser.action";
 import historyUtils from "../../../libs/history.utils";
 import LogUtils from "../../../libs/LogUtils";
 import RouteName from "../../../routes/Route.name";
-import { serviceGetList } from "../../../services/index.services";
 
-const useEventList = ({}) => {
+const usePolicieList = ({}) => {
+  const [isSidePanel, setSidePanel] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [editData, setEditData] = useState(null);
-  const [listData, setListData] = useState({
-    LOCATIONS: [],
-  });
   const dispatch = useDispatch();
   const isMountRef = useRef(false);
   const {
@@ -25,54 +22,52 @@ const useEventList = ({}) => {
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.event_list);
-  
+  } = useSelector((state) => state.adminUser);
+
   useEffect(() => {
-    dispatch(
-      actionFetchEventList(1, sortingData, {
-        query: isMountRef.current ? query : null,
-        query_data: isMountRef.current ? queryData : null,
-      })
-    );
-    isMountRef.current = true;
+    // dispatch(actionFetchAdminUser());
   }, []);
 
   useEffect(() => {
-    serviceGetList(["LOCATIONS"]).then((res) => {
-      if (!res.error) {
-        setListData(res.data);
-      }
-    });
+    // dispatch(
+    //   actionFetchAdminUser(1, {}, {
+    //     query: isMountRef.current ? query : null,
+    //     query_data: isMountRef.current ? queryData : null,
+    //   })
+    // );
+    isMountRef.current = true;
   }, []);
-  console.log("list", listData);
+
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
-    dispatch(actionSetPageEventList(type));
+    // dispatch(actionSetPageAdminUser(type));
   }, []);
 
   const handleDataSave = useCallback(
     (data, type) => {
       // this.props.actionChangeStatus({...data, type: type});
       if (type == "CREATE") {
-        dispatch(actionCreateEventList(data));
+        // dispatch(actionCreateAdminUser(data));
       } else {
-        dispatch(actionUpdateEventList(data));
+        // dispatch(actionUpdateAdminUser(data));
       }
+      setSidePanel((e) => !e);
       setEditData(null);
     },
-    [setEditData]
+    [setSidePanel, setEditData]
   );
 
   const queryFilter = useCallback(
     (key, value) => {
       console.log("_queryFilter", key, value);
-      // dispatch(actionSetPageEventListRequests(1));
+      // dispatch(actionSetPageAdminUserRequests(1));
       dispatch(
-        actionFetchEventList(1, sortingData, {
+        actionFetchAdminUser(1, sortingData, {
           query: key == "SEARCH_TEXT" ? value : query,
           query_data: key == "FILTER_DATA" ? value : queryData,
         })
       );
+      // dispatch(actionFetchAdminUser(1, sortingData))
     },
     [sortingData, query, queryData]
   );
@@ -96,8 +91,9 @@ const useEventList = ({}) => {
   const handleSortOrderChange = useCallback(
     (row, order) => {
       console.log(`handleSortOrderChange key:${row} order: ${order}`);
+      dispatch(actionSetPageAdminUser(1));
       dispatch(
-        actionFetchEventList(
+        actionFetchAdminUser(
           1,
           { row, order },
           {
@@ -116,27 +112,42 @@ const useEventList = ({}) => {
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(actionDeleteEventList(id));
+      dispatch(actionDeleteAdminUser(id));
+      setSidePanel(false);
       setEditData(null);
     },
-    [setEditData]
+    [setEditData, setSidePanel]
   );
 
   const handleEdit = useCallback(
     (data) => {
       setEditData(data);
+      setSidePanel((e) => !e);
     },
-    [setEditData]
+    [setEditData, setSidePanel]
+  );
+
+  const handleToggleSidePannel = useCallback(
+    (data) => {
+      setSidePanel((e) => !e);
+      setEditData(data?.id);
+    },
+    [setSidePanel, setEditData]
+  );
+
+  const handleSideToggle = useCallback(
+    (data) => {
+      historyUtils.push(RouteName.LOCATIONS_UPDATE + data?.id);
+    },
+    [setEditData, setSidePanel]
   );
 
   const handleViewDetails = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.CITY_ASSOCIATION_LIST}${data?.id}`); //+data.id
+    historyUtils.push(RouteName.LOCATIONS_DETAILS + data.id); //+data.id
   }, []);
 
-  const handleCreateFed = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.EVENTS_CREATE}`); //+data.id
+  const handleCreate = useCallback(() => {
+    historyUtils.push(RouteName.LOCATIONS_CREATE);
   }, []);
 
   const configFilter = useMemo(() => {
@@ -148,7 +159,7 @@ const useEventList = ({}) => {
         fields: ["ACTIVE", "INACTIVE"],
       },
     ];
-  }, [listData]);
+  }, []);
 
   return {
     handlePageChange,
@@ -159,12 +170,15 @@ const useEventList = ({}) => {
     handleSortOrderChange,
     handleDelete,
     handleEdit,
+    handleSideToggle,
     handleViewDetails,
     isCalling,
     editData,
+    isSidePanel,
     configFilter,
-    handleCreateFed,
+    handleCreate,
+    handleToggleSidePannel,
   };
 };
 
-export default useEventList;
+export default usePolicieList;

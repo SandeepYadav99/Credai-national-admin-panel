@@ -72,6 +72,7 @@ function useEventCreate() {
   const { id } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [remotePath, setRemotePath] = useState("");
+  
   const [listData, setListData] = useState({
     ADMIN: [],
     CHAPTERS: [],
