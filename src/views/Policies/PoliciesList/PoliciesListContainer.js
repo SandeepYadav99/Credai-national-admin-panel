@@ -95,6 +95,16 @@ const PolicieLists = ({}) => {
         label: "Action",
         render: (temp, all) => (
           <div>
+             <IconButton
+              className={"tableActionBtn"}
+              color="secondary"
+              disabled={isCalling}
+              onClick={() => {
+                // handleViewUpdate(all);
+              }}
+            >
+              <InfoOutlined fontSize={"small"} />
+            </IconButton>
             <IconButton
               className={"tableActionBtn"}
               color="secondary"

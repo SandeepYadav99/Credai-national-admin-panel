@@ -29,12 +29,12 @@ const usePolicieList = ({}) => {
   }, []);
 
   useEffect(() => {
-    // dispatch(
-    //   actionFetchAdminUser(1, {}, {
-    //     query: isMountRef.current ? query : null,
-    //     query_data: isMountRef.current ? queryData : null,
-    //   })
-    // );
+    dispatch(
+      actionFetchAdminUser(1, {}, {
+        query: isMountRef.current ? query : null,
+        query_data: isMountRef.current ? queryData : null,
+      })
+    );
     isMountRef.current = true;
   }, []);
 
