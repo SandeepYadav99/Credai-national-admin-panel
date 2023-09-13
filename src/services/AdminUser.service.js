@@ -10,7 +10,9 @@ export async function serviceGetAdminUserDetails(params) {
 export async function serviceUpdateAdminUser(params) {
   return await postRequest("users/update", params);
 }
-
+export async function serviceUpdateAdminUserSearch(params) {
+  return await postRequest("users/autocomplete", params);
+}
 export async function serviceDeleteAdminUser(params) {
   return await postRequest("users/delete", params);
 }

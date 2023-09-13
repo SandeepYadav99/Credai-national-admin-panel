@@ -14,6 +14,7 @@ import EventListReducer from "./EventList.reducer";
 import PendingEventListReducer from "./PendingEventList.reducer";
 import LeadMemberListReducer from "./LeadMemberList.reducer";
 import PolicyListReducer from "./PolicyList.reducer";
+import StateMemberReducer from "./StateMember.reducer";
 
 const rootReducer = combineReducers({
   state: (state = {}) => state,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   event_list:EventListReducer,
   pending_event_list:PendingEventListReducer,
   policyList:PolicyListReducer,
+  state_member_list:StateMemberReducer
 });
 
 export default rootReducer;

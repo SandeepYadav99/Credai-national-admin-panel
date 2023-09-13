@@ -2,33 +2,28 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  actionCreateCityAssocList,
-  actionDeleteCityAssocList,
-  actionFetchCityAssocList,
-  actionSetPageCityAssocList,
-  actionUpdateCityAssocList,
-} from "../../../actions/CityAssocList.action";
+  actionCreateStateMember,
+  actionDeleteStateMember,
+  actionFetchStateMember,
+  actionSetPageStateMember,
+  actionUpdateStateMember,
+} from "../../../actions/StateMember.action";
 import historyUtils from "../../../libs/history.utils";
 import LogUtils from "../../../libs/LogUtils";
 import RouteName from "../../../routes/Route.name";
 import { serviceGetList } from "../../../services/index.services";
 import { useParams } from "react-router";
+import { serviceDetailsStateMember } from "../../../services/StateMember.service";
 import { serviceDetailsCityAssocList } from "../../../services/CityAssocList.service";
 
-function useCityAssocList() {
+function useStateMemberDetail() {
   const [isCalling, setIsCalling] = useState(false);
+  const [isSidePanel, setSidePanel] = useState(false);
   const [CityData, setCityData] = useState({});
   const [editData, setEditData] = useState(null);
   const [listData, setListData] = useState({
     LOCATIONS: [],
   });
-  useEffect(() => {
-    serviceGetList(["LOCATIONS"]).then((res) => {
-      if (!res.error) {
-        setListData(res.data);
-      }
-    });
-  }, []);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -38,7 +33,7 @@ function useCityAssocList() {
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.city_assoc_list);
+  } = useSelector((state) => state.state_member_list);
 
   useEffect(() => {
     let req = serviceDetailsCityAssocList({ id: id });
@@ -49,40 +44,54 @@ function useCityAssocList() {
 
   useEffect(() => {
     dispatch(
-      actionFetchCityAssocList(1, sortingData, {
+      actionFetchStateMember(1, sortingData, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
-        parent_chapter_id: id,
+        chapter_id: id,
       })
     );
     isMountRef.current = true;
   }, []);
 
-  
+  useEffect(() => {
+    serviceGetList(["LOCATIONS"]).then((res) => {
+      if (!res.error) {
+        setListData(res.data);
+      }
+    });
+  }, []);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
-    dispatch(actionSetPageCityAssocList(type));
+    dispatch(actionSetPageStateMember(type));
   }, []);
 
   const handleDataSave = useCallback(
     (data, type) => {
       // this.props.actionChangeStatus({...data, type: type});
       if (type == "CREATE") {
-        dispatch(actionCreateCityAssocList(data));
+        dispatch(actionCreateStateMember(data));
       } else {
-        dispatch(actionUpdateCityAssocList(data));
+        dispatch(actionUpdateStateMember(data));
       }
       setEditData(null);
     },
     [setEditData]
   );
 
+  const handleToggleSidePannel = useCallback(
+    (data) => {
+      setSidePanel((e) => !e);
+      // setEditData(data?.id);
+    },
+    [setSidePanel]
+  );
+
   const queryFilter = useCallback(
     (key, value) => {
       console.log("_queryFilter", key, value);
-      // dispatch(actionSetPageCityAssocListRequests(1));
+      // dispatch(actionSetPageStateMemberRequests(1));
       dispatch(
-        actionFetchCityAssocList(1, sortingData, {
+        actionFetchStateMember(1, sortingData, {
           query: key == "SEARCH_TEXT" ? value : query,
           query_data: key == "FILTER_DATA" ? value : queryData,
         })
@@ -111,7 +120,7 @@ function useCityAssocList() {
     (row, order) => {
       console.log(`handleSortOrderChange key:${row} order: ${order}`);
       dispatch(
-        actionFetchCityAssocList(
+        actionFetchStateMember(
           1,
           { row, order },
           {
@@ -130,7 +139,7 @@ function useCityAssocList() {
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(actionDeleteCityAssocList(id));
+      dispatch(actionDeleteStateMember(id));
       setEditData(null);
     },
     [setEditData]
@@ -183,7 +192,9 @@ function useCityAssocList() {
     handleCreateFed,
     handleViewUpdate,
     CityData,
+    handleToggleSidePannel,
+    isSidePanel
   };
 }
 
-export default useCityAssocList;
+export default useStateMemberDetail;

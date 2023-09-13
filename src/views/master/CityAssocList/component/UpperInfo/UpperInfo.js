@@ -3,7 +3,6 @@ import styles from "./Style.module.css";
 // import image from "../../../../../assets/img/download.png";
 
 function UpperInfo({ data }) {
-  console.log('data',data)
   return (
     <div className={styles.plainPaper}>
       <div className={styles.newContainer}>

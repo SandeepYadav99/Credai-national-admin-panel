@@ -38,7 +38,7 @@ const MasterList = ({}) => {
     warehouses,
     handleCreateFed,
     ViewNationalDetail,
-    handleViewUpdate,
+    handleViewStateMember,
     handleUpdate
   } = useMasterList({});
 
@@ -109,9 +109,9 @@ const MasterList = ({}) => {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              // onClick={() => {
-              //   handleViewUpdate(all);
-              // }}
+              onClick={() => {
+                handleViewStateMember(all);
+              }}
             >
               <PeopleOutlineOutlinedIcon fontSize={"small"} />
             </IconButton>

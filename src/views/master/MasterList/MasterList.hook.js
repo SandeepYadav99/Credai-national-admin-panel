@@ -145,6 +145,12 @@ const useMasterList = ({}) => {
     LogUtils.log("data", data);
     historyUtils.push(`${RouteName.STATE_FEDERATION_UPDATE}${data?.id}`); //+data.id
   }, []);
+
+  const handleViewStateMember = useCallback((data) => {
+    LogUtils.log("data", data);
+    historyUtils.push(`${RouteName.STATE_MEMBER_DETAIL}${data?.id}`); //+data.id
+  }, []);
+  
   
   const configFilter = useMemo(() => {
     return [
@@ -172,7 +178,8 @@ const useMasterList = ({}) => {
     configFilter,
     handleCreateFed,
     ViewNationalDetail,
-    handleUpdate
+    handleUpdate,
+    handleViewStateMember
   };
 };
 
