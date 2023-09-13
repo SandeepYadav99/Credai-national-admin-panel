@@ -1,18 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  actionCreateAdminUser,
-  actionDeleteAdminUser,
-  actionFetchAdminUser,
-  actionSetPageAdminUser,
-  actionUpdateAdminUser,
-} from "../../../actions/AdminUser.action";
 import historyUtils from "../../../libs/history.utils";
-import LogUtils from "../../../libs/LogUtils";
 import RouteName from "../../../routes/Route.name";
 import { actionCreatePolicyList, actionDeletePolicyList, actionFetchPolicyList, actionSetPagePolicyList, actionUpdatePolicyList } from "../../../actions/PolicyList.action";
 
 const usePolicieList = ({}) => {
+  
   const [isSidePanel, setSidePanel] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [editData, setEditData] = useState(null);

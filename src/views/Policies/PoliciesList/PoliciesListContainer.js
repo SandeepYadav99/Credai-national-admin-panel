@@ -1,8 +1,7 @@
-import React, { Component, useCallback, useEffect, useMemo } from "react";
-import { IconButton, MenuItem, ButtonBase } from "@material-ui/core";
-import classNames from "classnames";
-import { connect, useSelector } from "react-redux";
-import { Add, InfoOutlined, Link } from "@material-ui/icons";
+import React, {  useCallback,  useMemo } from "react";
+import { IconButton, ButtonBase } from "@material-ui/core";
+import {  useSelector } from "react-redux";
+import { Add,  Link } from "@material-ui/icons";
 import PageBox from "../../../components/PageBox/PageBox.component";
 import SidePanelComponent from "../../../components/SidePanel/SidePanel.component";
 import styles from "./Style.module.css";
@@ -10,12 +9,7 @@ import DataTables from "../../../Datatables/Datatable.table";
 import Constants from "../../../config/constants";
 import FilterComponent from "../../../components/Filter/Filter.component";
 import { Edit, RemoveRedEyeOutlined as ViewIcon } from "@material-ui/icons";
-// import StatusPill from "../../../components/Status/StatusPill.component";
-import useAuthenticate from "../../../hooks/AuthenticateHook";
-// import useAdminUserList from "./AdminUserListHook";
-// import DepartmentCreateView from "../AdminCreate/AdminCreate.view";
 import StatusPill from "../../../components/Status/StatusPill.component";
-// import AdminCreateView from "../AdminCreate/AdminCreate.view";
 import usePolicieList from "./PoliciesListHook";
 import PoliciesCreateView from "../PoliciesCreate/PoliciesCreate.view";
 
@@ -110,9 +104,9 @@ const PolicieLists = ({}) => {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              // onClick={() => {
-              //   handleToggleSidePannel(all);
-              // }}
+              onClick={() => {
+                handleToggleSidePannel(all);
+              }}
             >
               <Edit fontSize={"small"} />
             </IconButton>

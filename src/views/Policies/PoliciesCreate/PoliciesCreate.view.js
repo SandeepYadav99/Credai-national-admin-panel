@@ -1,31 +1,17 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
-  Button,
   ButtonBase,
   CircularProgress,
-  IconButton,
-  InputAdornment,
   MenuItem,
 } from "@material-ui/core";
 import styles from "./Style.module.css";
 import { makeStyles } from "@material-ui/styles";
 import CustomTextField from "../../../components/FormFields/TextField/TextField.component";
 import CustomSelectField from "../../../components/FormFields/SelectField/SelectField.component";
-
 import CustomSwitch from "../../../components/FormFields/CustomSwitch";
-import { isAlpha } from "../../../libs/RegexUtils";
-// import useAdminCreate from "./AdminCreateHook";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { Field } from "redux-form";
-import { renderCountryContact } from "../../../libs/redux-material.utils";
-import CustomCountryFC, {
-  CountryContactFC,
-} from "../../../components/CountryFC/CustomCountryFC";
 import usePoliciesCreateHook from "./PoliciesCreateHook";
 import CustomDatePicker from "../../../components/FormFields/DatePicker/CustomDatePicker";
 import File from "../../../components/FileComponent/FileComponent.component";
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   iconBtnError: {
