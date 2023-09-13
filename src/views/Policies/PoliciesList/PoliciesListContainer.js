@@ -18,7 +18,7 @@ import StatusPill from "../../../components/Status/StatusPill.component";
 // import AdminCreateView from "../AdminCreate/AdminCreate.view";
 import usePolicieList from "./PoliciesListHook";
 import PoliciesCreateView from "../PoliciesCreate/PoliciesCreate.view";
-// import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
+
 
 const PolicieLists = ({}) => {
   const {
