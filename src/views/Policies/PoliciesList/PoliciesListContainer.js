@@ -2,7 +2,7 @@ import React, { Component, useCallback, useEffect, useMemo } from "react";
 import { IconButton, MenuItem, ButtonBase } from "@material-ui/core";
 import classNames from "classnames";
 import { connect, useSelector } from "react-redux";
-import { Add, InfoOutlined, PrintOutlined } from "@material-ui/icons";
+import { Add, InfoOutlined, Link } from "@material-ui/icons";
 import PageBox from "../../../components/PageBox/PageBox.component";
 import SidePanelComponent from "../../../components/SidePanel/SidePanel.component";
 import styles from "./Style.module.css";
@@ -18,6 +18,7 @@ import StatusPill from "../../../components/Status/StatusPill.component";
 // import AdminCreateView from "../AdminCreate/AdminCreate.view";
 import usePolicieList from "./PoliciesListHook";
 import PoliciesCreateView from "../PoliciesCreate/PoliciesCreate.view";
+// import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 
 const PolicieLists = ({}) => {
   const {
@@ -103,7 +104,7 @@ const PolicieLists = ({}) => {
                 // handleViewUpdate(all);
               }}
             >
-              <InfoOutlined fontSize={"small"} />
+              <Link fontSize={"small"} />
             </IconButton>
             <IconButton
               className={"tableActionBtn"}
