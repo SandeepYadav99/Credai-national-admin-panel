@@ -39,7 +39,6 @@ const useAdminCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
   const [isEdit, setIsEdit] = useState(false);
   const includeRef = useRef(null);
   const codeDebouncer = useDebounce(form?.code, 500);
-
   useEffect(() => {
     if (empId) {
       serviceGetAdminUserDetails({ id: empId }).then((res) => {

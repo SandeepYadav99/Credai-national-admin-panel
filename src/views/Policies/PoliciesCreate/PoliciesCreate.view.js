@@ -25,6 +25,7 @@ import usePoliciesCreateHook from "./PoliciesCreateHook";
 import CustomDatePicker from "../../../components/FormFields/DatePicker/CustomDatePicker";
 import File from "../../../components/FileComponent/FileComponent.component";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   iconBtnError: {
@@ -41,6 +42,7 @@ const PoliciesCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
     form,
     errorData,
     isSubmitting,
+    listData,
     isLoading,
     handleSubmit,
     removeError,
@@ -51,67 +53,55 @@ const PoliciesCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
     setShowPasswordCurrent,
   } = usePoliciesCreateHook({ handleToggleSidePannel, isSidePanel, empId });
   const classes = useStyles();
+ 
   return (
     <div className={styles.departmentWrap}>
       <div className={"formFlex"}>
         <div className={"formGroup"}>
           <CustomTextField
-            isError={errorData?.policy_title}
-            errorText={errorData?.policy_title}
+            isError={errorData?.name}
+            errorText={errorData?.name}
             label={"Policy Title"}
             value={form?.name}
             onTextChange={(text) => {
-              changeTextData(text, "policy_title");
+              changeTextData(text, "name");
             }}
             onBlur={() => {
-              onBlurHandler("policy_title");
+              onBlurHandler("name");
             }}
           />
         </div>
       </div>
       <div className={"formFlex"}>
-
-        {/* <CountryContactFC
-            fullWidth={true}
-            error={errorData?.name}
-            name="contact"
-            type={"number"}
-            margin={"dense"}
-            label="Phone No"
-            value="fds"
-          /> */}
-        {/* <Field
-            fullWidth={true}
-            name="contact"
-            type={"number"}
-            component={renderCountryContact}
-            margin={"dense"}
-            label="Phone No"
-          /> */}
         <div className={"formGroup"}>
           <CustomDatePicker
             clearable
             label={"Date"}
             // maxDate={new Date()}
             onChange={(date) => {
-              changeTextData(date, "date");
+              changeTextData(date, "effective_date");
             }}
-            value={form?.date}
-            isError={errorData?.date}
+            value={form?.createdAtText}
+            isError={errorData?.effective_date}
           />
         </div>
         <div className={"formGroup"}>
           <CustomSelectField
-            isError={errorData?.associate_chapter}
-            errorText={errorData?.associate_chapter}
+            isError={errorData?.chapter_id}
+            errorText={errorData?.chapter_id}
             label={"Associate Chapter"}
-            value={form?.associate_chapter}
+            value={form?.chapter_id}
             handleChange={(value) => {
-              changeTextData(value, "associate_chapter");
+              changeTextData(value, "chapter_id");
             }}
           >
-            <MenuItem value="GUGRAT">GUGRAT</MenuItem>
-            <MenuItem value="GENERAL">GENERAL</MenuItem>
+            {listData?.CHAPTERS?.map((dT) => {
+                  return (
+                    <MenuItem value={dT?.id} key={dT?.id}>
+                      {dT?.name}
+                    </MenuItem>
+                  );
+                })}
           </CustomSelectField>
         </div>
 
@@ -125,12 +115,12 @@ const PoliciesCreateView = ({ handleToggleSidePannel, isSidePanel, empId }) => {
               name="od1"
               label="Development.pdy"
               accept={"application/pdf,application/msword,image/*"}
-              error={errorData?.attach_pdf}
-              value={form?.attach_pdf}
+              error={errorData?.document}
+              value={form?.document}
               placeholder={"Development.pdy"}
               onChange={(file) => {
                 if (file) {
-                  changeTextData(file, "attach_pdf");
+                  changeTextData(file, "document");
                 }
               }}
             />

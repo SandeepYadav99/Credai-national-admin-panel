@@ -166,3 +166,4 @@ export default function (state = JSON.parse(JSON.stringify(initialState)), actio
         }
     }
 }
+

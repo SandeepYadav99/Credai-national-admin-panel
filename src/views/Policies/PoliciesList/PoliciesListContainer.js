@@ -44,7 +44,7 @@ const PolicieLists = ({}) => {
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.adminUser);
+  } = useSelector((state) => state.policyList);
 
   const UpperInfo = useCallback((obj) => {
     if (obj) {
@@ -70,14 +70,14 @@ const PolicieLists = ({}) => {
         key: "publich Date",
         label: "PUBLICH DATE",
         sortable: true,
-        render: (value, all) => <div>{all?.email}</div>,
+        render: (value, all) => <div>{all?.effective_date}</div>,
       },
 
       {
         key: "associated chapter",
         label: "ASSOCIATED CHAPTER",
         sortable: true,
-        render: (temp, all) => <div>{all.contact}</div>,
+        render: (temp, all) => <div>{all.chapter_id}</div>,
       },
       {
         key: "updated on",

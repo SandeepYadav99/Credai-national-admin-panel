@@ -10,6 +10,7 @@ import {
 import historyUtils from "../../../libs/history.utils";
 import LogUtils from "../../../libs/LogUtils";
 import RouteName from "../../../routes/Route.name";
+import { actionCreatePolicyList, actionDeletePolicyList, actionFetchPolicyList, actionSetPagePolicyList, actionUpdatePolicyList } from "../../../actions/PolicyList.action";
 
 const usePolicieList = ({}) => {
   const [isSidePanel, setSidePanel] = useState(false);
@@ -22,7 +23,7 @@ const usePolicieList = ({}) => {
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.adminUser);
+  } = useSelector((state) => state.policyList);
 
   useEffect(() => {
     // dispatch(actionFetchAdminUser());
@@ -30,7 +31,7 @@ const usePolicieList = ({}) => {
 
   useEffect(() => {
     dispatch(
-      actionFetchAdminUser(1, {}, {
+      actionFetchPolicyList(1, {}, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
       })
@@ -45,11 +46,12 @@ const usePolicieList = ({}) => {
 
   const handleDataSave = useCallback(
     (data, type) => {
+      console.log(type, data)
       // this.props.actionChangeStatus({...data, type: type});
       if (type == "CREATE") {
-        // dispatch(actionCreateAdminUser(data));
+        dispatch(actionCreatePolicyList(data));
       } else {
-        // dispatch(actionUpdateAdminUser(data));
+        dispatch(actionUpdatePolicyList(data));
       }
       setSidePanel((e) => !e);
       setEditData(null);
@@ -62,7 +64,7 @@ const usePolicieList = ({}) => {
       console.log("_queryFilter", key, value);
       // dispatch(actionSetPageAdminUserRequests(1));
       dispatch(
-        actionFetchAdminUser(1, sortingData, {
+        actionFetchPolicyList(1, sortingData, {
           query: key == "SEARCH_TEXT" ? value : query,
           query_data: key == "FILTER_DATA" ? value : queryData,
         })
@@ -91,9 +93,9 @@ const usePolicieList = ({}) => {
   const handleSortOrderChange = useCallback(
     (row, order) => {
       console.log(`handleSortOrderChange key:${row} order: ${order}`);
-      dispatch(actionSetPageAdminUser(1));
+      dispatch(actionSetPagePolicyList(1));
       dispatch(
-        actionFetchAdminUser(
+        actionFetchPolicyList(
           1,
           { row, order },
           {
@@ -112,7 +114,7 @@ const usePolicieList = ({}) => {
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(actionDeleteAdminUser(id));
+      dispatch(actionDeletePolicyList(id));
       setSidePanel(false);
       setEditData(null);
     },

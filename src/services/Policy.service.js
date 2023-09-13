@@ -15,3 +15,7 @@ export async function serviceUpdatePolicyList(params) {
 export async function serviceGetPolicyDetails(params) {
     return await postRequest("policies/detail", params);
 }
+
+export async function serviceDeletePolicyList(params) {
+    return await postRequest("policies/delete", params);
+}
