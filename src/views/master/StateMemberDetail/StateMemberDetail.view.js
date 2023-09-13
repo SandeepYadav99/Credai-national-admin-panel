@@ -1,33 +1,26 @@
-import React, { Component, useCallback, useEffect, useMemo } from "react";
-import {
-  Button,
-  Paper,
-  Checkbox,
-  IconButton,
-  MenuItem,
-  ButtonBase,
-  Menu,
-} from "@material-ui/core";
-import classNames from "classnames";
-import { connect, useSelector } from "react-redux";
-import PageBox from "../../../components/PageBox/PageBox.component";
+import React from "react";
+import history from "../../../libs/history.utils";
 import styles from "./Style.module.css";
-import DataTables from "../../../Datatables/Datatable.table";
-import Constants from "../../../config/constants";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { ButtonBase, IconButton } from "@material-ui/core";
 import FilterComponent from "../../../components/Filter/Filter.component";
+import DataTables from "../../../Datatables/Datatable.table";
+import PageBox from "../../../components/PageBox/PageBox.component";
+import useStateMemberDetail from "./StateMemberDetail.hook";
+import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import StatusPill from "../../../components/Status/StatusPill.component";
-import useMasterList from "./MasterList.hook";
 import { Add, InfoOutlined } from "@material-ui/icons";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import PeopleOutlineOutlinedIcon from "@material-ui/icons/PeopleOutlineOutlined";
+import Constants from "../../../config/constants";
+import UpperInfo from "../CityAssocList/component/UpperInfo/UpperInfo";
 
-const MasterList = ({}) => {
+function StateMemberDetail() {
   const {
     handleSortOrderChange,
     handleRowSize,
     handlePageChange,
-    handleDataSave,
-    handleDelete,
     handleEdit,
     handleFilterDataChange,
     handleSearchValueChange,
@@ -37,50 +30,46 @@ const MasterList = ({}) => {
     configFilter,
     warehouses,
     handleCreateFed,
-    ViewNationalDetail,
-    handleViewStateMember,
-    handleUpdate
-  } = useMasterList({});
+    handleViewUpdate,
+    CityData,
+  } = useStateMemberDetail({});
 
   const {
     data,
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.state_member_list);
 
   const tableStructure = useMemo(() => {
     return [
       {
-        key: "code",
-        label: "STATE FEDERATION CODE",
+        key: "user",
+        label: "MEMBER USER",
         sortable: true,
-        render: (value, all) => (
-          <div>
-            {all.code}
-          </div>
-        ),
+        render: (value, all) => <div>{all.code}</div>,
       },
       {
-        key: "name",
-        label: "STATE FEDERATION NAME",
+        key: "id",
+        label: "MEMBER COMPANY/ MEMBERSHIP ID",
         sortable: false,
         render: (temp, all) => <div>{all?.name}</div>,
       },
       {
-        key: "created",
-        label: "CREATED ON",
-        sortable: false,
-        render: (temp, all) => <div>{all?.createdAtText}</div>,
+        key: "contact",
+        label: "PHONE NUMBER",
+        sortable: true,
+        render: (value, all) => <div>{all.code}</div>,
       },
       {
-        key: "status",
-        label: "STATUS",
-        sortable: false,
-        render: (temp, all) => <div>{<StatusPill status={all?.status} />}</div>,
+        key: "email",
+        label: "EMAIL",
+        sortable: true,
+        render: (value, all) => <div>{all.code}</div>,
       },
+
       {
-        key: "action",
+        key: "user_id",
         label: "Action",
         style: { width: "15%" },
         render: (temp, all) => (
@@ -90,7 +79,7 @@ const MasterList = ({}) => {
               color="secondary"
               disabled={isCalling}
               onClick={() => {
-                handleUpdate(all);
+                handleViewUpdate(all);
               }}
             >
               <InfoOutlined fontSize={"small"} />
@@ -99,19 +88,9 @@ const MasterList = ({}) => {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              onClick={() => {
-                handleViewDetails(all);
-              }}
-            >
-              <RoomOutlinedIcon fontSize={"small"} />
-            </IconButton>
-            <IconButton
-              className={"tableActionBtn"}
-              color="secondary"
-              disabled={isCalling}
-              onClick={() => {
-                handleViewStateMember(all);
-              }}
+              // onClick={() => {
+              //   handleViewUpdate(all);
+              // }}
             >
               <PeopleOutlineOutlinedIcon fontSize={"small"} />
             </IconButton>
@@ -146,28 +125,29 @@ const MasterList = ({}) => {
     data,
     currentPage,
   ]);
-
   return (
-    <>
+    <div className={styles.claimListWrapper}>
+      <div className={styles.outerFlex}>
+        <div>
+          <ButtonBase onClick={() => history.goBack()}>
+            <ArrowBackIosIcon fontSize={"small"} />{" "}
+            <span className={"capitalize"}>
+              <b>State Member List</b>
+            </span>
+          </ButtonBase>
+          <div className={styles.newLine} />
+        </div>
+        <ButtonBase className={"createBtn"} onClick={handleCreateFed}>
+          ADD USER
+          <Add fontSize={"small"} className={"plusIcon"}></Add>
+        </ButtonBase>
+      </div>
+      <UpperInfo data={CityData} />
       <PageBox>
         <div className={styles.headerContainer}>
           <div>
-            <span className={styles.title}>CREDAI National List</span>
-            <div className={styles.newLine} />
-          </div>
-          <div className={styles.BtnWrapper}>
-            <div className={styles.rightFlex}>
-              {/* <ButtonBase
-                className={styles.download}
-                onClick={ViewNationalDetail}
-              >
-                View National Member
-              </ButtonBase> */}
-            </div>
-            <ButtonBase onClick={handleCreateFed} className={"createBtn"}>
-              ADD State Federation
-              <Add fontSize={"small"} className={"plusIcon"}></Add>
-            </ButtonBase>
+            <span className={styles.title}>Member List</span>
+            <div className={styles.newLine2} />
           </div>
         </div>
 
@@ -189,8 +169,8 @@ const MasterList = ({}) => {
           </div>
         </div>
       </PageBox>
-    </>
+    </div>
   );
-};
+}
 
-export default MasterList;
+export default StateMemberDetail;

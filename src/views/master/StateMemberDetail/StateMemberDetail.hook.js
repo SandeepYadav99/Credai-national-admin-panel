@@ -1,36 +1,52 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  actionCreateMasterList,
-  actionDeleteMasterList,
-  actionFetchMasterList,
-  actionSetPageMasterList,
-  actionUpdateMasterList,
-} from "../../../actions/MasterList.action";
+  actionCreateStateMember,
+  actionDeleteStateMember,
+  actionFetchStateMember,
+  actionSetPageStateMember,
+  actionUpdateStateMember,
+} from "../../../actions/StateMember.action";
 import historyUtils from "../../../libs/history.utils";
 import LogUtils from "../../../libs/LogUtils";
 import RouteName from "../../../routes/Route.name";
 import { serviceGetList } from "../../../services/index.services";
+import { useParams } from "react-router";
+import { serviceDetailsStateMember } from "../../../services/StateMember.service";
+import { serviceDetailsCityAssocList } from "../../../services/CityAssocList.service";
 
-const useMasterList = ({}) => {
+function useStateMemberDetail() {
   const [isCalling, setIsCalling] = useState(false);
+  const [CityData, setCityData] = useState({});
   const [editData, setEditData] = useState(null);
   const [listData, setListData] = useState({
     LOCATIONS: [],
   });
   const dispatch = useDispatch();
+  const { id } = useParams();
+
   const isMountRef = useRef(false);
   const {
     sorting_data: sortingData,
     is_fetching: isFetching,
     query,
     query_data: queryData,
-  } = useSelector((state) => state.master_list);
+  } = useSelector((state) => state.state_member_list);
+
+  useEffect(() => {
+    let req = serviceDetailsCityAssocList({ id: id });
+    req.then((data) => {
+      setCityData(data?.data?.details);
+    });
+  }, [id]);
+
   useEffect(() => {
     dispatch(
-      actionFetchMasterList(1, sortingData, {
+      actionFetchStateMember(1, sortingData, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
+        chapter_id: id,
       })
     );
     isMountRef.current = true;
@@ -45,16 +61,16 @@ const useMasterList = ({}) => {
   }, []);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
-    dispatch(actionSetPageMasterList(type));
+    dispatch(actionSetPageStateMember(type));
   }, []);
 
   const handleDataSave = useCallback(
     (data, type) => {
       // this.props.actionChangeStatus({...data, type: type});
       if (type == "CREATE") {
-        dispatch(actionCreateMasterList(data));
+        dispatch(actionCreateStateMember(data));
       } else {
-        dispatch(actionUpdateMasterList(data));
+        dispatch(actionUpdateStateMember(data));
       }
       setEditData(null);
     },
@@ -64,9 +80,9 @@ const useMasterList = ({}) => {
   const queryFilter = useCallback(
     (key, value) => {
       console.log("_queryFilter", key, value);
-      // dispatch(actionSetPageMasterListRequests(1));
+      // dispatch(actionSetPageStateMemberRequests(1));
       dispatch(
-        actionFetchMasterList(1, sortingData, {
+        actionFetchStateMember(1, sortingData, {
           query: key == "SEARCH_TEXT" ? value : query,
           query_data: key == "FILTER_DATA" ? value : queryData,
         })
@@ -95,7 +111,7 @@ const useMasterList = ({}) => {
     (row, order) => {
       console.log(`handleSortOrderChange key:${row} order: ${order}`);
       dispatch(
-        actionFetchMasterList(
+        actionFetchStateMember(
           1,
           { row, order },
           {
@@ -114,7 +130,7 @@ const useMasterList = ({}) => {
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(actionDeleteMasterList(id));
+      dispatch(actionDeleteStateMember(id));
       setEditData(null);
     },
     [setEditData]
@@ -132,26 +148,15 @@ const useMasterList = ({}) => {
     historyUtils.push(`${RouteName.CITY_ASSOCIATION_LIST}${data?.id}`); //+data.id
   }, []);
 
-  const handleCreateFed = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.STATE_FEDERATION_CREATE}`); //+data.id
-  }, []);
+  const handleCreateFed = useCallback(() => {
+    historyUtils.push(RouteName.CITY_ASSOCIATION_CREATE, {
+      parent_id: CityData?.id,
+    });
+  }, [CityData, setCityData]);
 
-  const ViewNationalDetail = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.NATIONAL_MEMBER_DETAIL}`); //+data.id
+  const handleViewUpdate = useCallback((data) => {
+    historyUtils.push(`${RouteName.CITY_ASSOCIATION_UPDATE}${data?.id}`);
   }, []);
-  const handleUpdate = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.STATE_FEDERATION_UPDATE}${data?.id}`); //+data.id
-  }, []);
-
-  const handleViewStateMember = useCallback((data) => {
-    LogUtils.log("data", data);
-    historyUtils.push(`${RouteName.STATE_MEMBER_DETAIL}${data?.id}`); //+data.id
-  }, []);
-  
-  
   const configFilter = useMemo(() => {
     return [
       {
@@ -162,7 +167,6 @@ const useMasterList = ({}) => {
       },
     ];
   }, [listData]);
-
   return {
     handlePageChange,
     handleDataSave,
@@ -177,10 +181,9 @@ const useMasterList = ({}) => {
     editData,
     configFilter,
     handleCreateFed,
-    ViewNationalDetail,
-    handleUpdate,
-    handleViewStateMember
+    handleViewUpdate,
+    CityData,
   };
-};
+}
 
-export default useMasterList;
+export default useStateMemberDetail;
