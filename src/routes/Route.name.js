@@ -9,6 +9,8 @@ export default {
   NATIONAL_MEMBER_DETAIL:'/national/member/detail',
   CITY_ASSOCIATION_LIST:'/city/list/',
   CITY_ASSOCIATION_CREATE:'/city/create',
+  CITY_ASSOCIATION_UPDATE:'/city/update/',
+
 
 
   ADMIN: "/admin",

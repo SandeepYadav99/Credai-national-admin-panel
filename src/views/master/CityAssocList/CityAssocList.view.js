@@ -75,9 +75,9 @@ function CityAssocList() {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              // onClick={() => {
-              //   handleViewUpdate(all);
-              // }}
+              onClick={() => {
+                handleViewUpdate(all);
+              }}
             >
               <InfoOutlined fontSize={"small"} />
             </IconButton>

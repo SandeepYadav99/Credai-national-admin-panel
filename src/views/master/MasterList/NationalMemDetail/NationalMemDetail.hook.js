@@ -43,7 +43,6 @@ const useNationalMemDetail = ({}) => {
       }
     });
   }, []);
-  console.log("list", listData);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
     dispatch(actionSetPageMasterList(type));

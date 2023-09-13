@@ -43,7 +43,6 @@ const usePendingPendingEventList = ({}) => {
       }
     });
   }, []);
-  console.log("list", listData);
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
     dispatch(actionSetPagePendingEventList(type));

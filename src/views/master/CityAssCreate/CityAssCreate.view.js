@@ -34,6 +34,7 @@ const CityAssCreate = ({ location }) => {
     changeTextData,
     id,
     listData,
+    image,
   } = useCityAssCreate({ location });
   const classes = useStyles();
 
@@ -70,7 +71,7 @@ const CityAssCreate = ({ location }) => {
               show_image={true}
               error={errorData?.image}
               value={form?.image}
-              // default_image={editData?.image ? editData?.image : null}
+              default_image={image ? image : null}
               onChange={(file) => {
                 if (file) {
                   changeTextData(file, "image");
@@ -112,12 +113,12 @@ const CityAssCreate = ({ location }) => {
             <div className={"formFlex"}>
               <div className={"formGroup"}>
                 <CustomAutoComplete
-                disabled={true}
+                  disabled={true}
                   autoCompleteProps={{
                     freeSolo: false,
                     getOptionLabel: (option) => option?.name || "",
                   }}
-                  dataset={listData?.CHAPTERS ? listData?.CHAPTERS :[]}
+                  dataset={listData?.CHAPTERS ? listData?.CHAPTERS : []}
                   datasetKey={"name"}
                   onTextChange={(text, value) => {
                     changeTextData(text, "parent_chapter_id");

@@ -91,7 +91,15 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
-  
+  {
+    path: `${RouteName.CITY_ASSOCIATION_UPDATE}:id`,
+    sidebarName: "Chapters Master",
+    navbarName: "Chapters Master",
+    icon: PeopleOutlined,
+    component: CityAssCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
   {
     path: `${RouteName.ADMIN}`,
     sidebarName: "Admin Users",
