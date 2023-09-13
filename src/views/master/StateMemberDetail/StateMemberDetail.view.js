@@ -15,6 +15,9 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import PeopleOutlineOutlinedIcon from "@material-ui/icons/PeopleOutlineOutlined";
 import Constants from "../../../config/constants";
 import UpperInfo from "../CityAssocList/component/UpperInfo/UpperInfo";
+import SidePanelComponent from "../../../components/SidePanel/SidePanel.component";
+import { useCallback } from "react";
+import StateMemCreate from "./StateMemCreate/StateMemCreate.view";
 
 function StateMemberDetail() {
   const {
@@ -32,6 +35,8 @@ function StateMemberDetail() {
     handleCreateFed,
     handleViewUpdate,
     CityData,
+    handleToggleSidePannel,
+    isSidePanel,
   } = useStateMemberDetail({});
 
   const {
@@ -41,6 +46,17 @@ function StateMemberDetail() {
     is_fetching: isFetching,
   } = useSelector((state) => state.state_member_list);
 
+  const UpperInfoTitle = useCallback((obj) => {
+    if (obj) {
+      return (
+        <div className={styles.InfoWrap}>
+          <div>Add Member Users</div>
+          <div className={styles.newLine}></div>
+        </div>
+      );
+    }
+    return null;
+  }, []);
   const tableStructure = useMemo(() => {
     return [
       {
@@ -137,7 +153,7 @@ function StateMemberDetail() {
           </ButtonBase>
           <div className={styles.newLine} />
         </div>
-        <ButtonBase className={"createBtn"} onClick={handleCreateFed}>
+        <ButtonBase className={"createBtn"} onClick={handleToggleSidePannel}>
           ADD USER
           <Add fontSize={"small"} className={"plusIcon"}></Add>
         </ButtonBase>
@@ -168,6 +184,18 @@ function StateMemberDetail() {
             </div>
           </div>
         </div>
+        <SidePanelComponent
+          handleToggle={handleToggleSidePannel}
+          title={<UpperInfoTitle />}
+          open={isSidePanel}
+          side={"right"}
+        >
+          <StateMemCreate
+            handleToggleSidePannel={handleToggleSidePannel}
+            isSidePanel={isSidePanel}
+            empId={editData}
+          />
+        </SidePanelComponent>
       </PageBox>
     </div>
   );

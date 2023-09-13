@@ -18,6 +18,7 @@ import { serviceDetailsCityAssocList } from "../../../services/CityAssocList.ser
 
 function useStateMemberDetail() {
   const [isCalling, setIsCalling] = useState(false);
+  const [isSidePanel, setSidePanel] = useState(false);
   const [CityData, setCityData] = useState({});
   const [editData, setEditData] = useState(null);
   const [listData, setListData] = useState({
@@ -75,6 +76,14 @@ function useStateMemberDetail() {
       setEditData(null);
     },
     [setEditData]
+  );
+
+  const handleToggleSidePannel = useCallback(
+    (data) => {
+      setSidePanel((e) => !e);
+      // setEditData(data?.id);
+    },
+    [setSidePanel]
   );
 
   const queryFilter = useCallback(
@@ -183,6 +192,8 @@ function useStateMemberDetail() {
     handleCreateFed,
     handleViewUpdate,
     CityData,
+    handleToggleSidePannel,
+    isSidePanel
   };
 }
 

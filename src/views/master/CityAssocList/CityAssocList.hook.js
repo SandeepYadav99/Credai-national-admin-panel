@@ -22,6 +22,13 @@ function useCityAssocList() {
   const [listData, setListData] = useState({
     LOCATIONS: [],
   });
+  useEffect(() => {
+    serviceGetList(["LOCATIONS"]).then((res) => {
+      if (!res.error) {
+        setListData(res.data);
+      }
+    });
+  }, []);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -51,13 +58,7 @@ function useCityAssocList() {
     isMountRef.current = true;
   }, []);
 
-  useEffect(() => {
-    serviceGetList(["LOCATIONS"]).then((res) => {
-      if (!res.error) {
-        setListData(res.data);
-      }
-    });
-  }, []);
+  
   const handlePageChange = useCallback((type) => {
     console.log("_handlePageChange", type);
     dispatch(actionSetPageCityAssocList(type));
