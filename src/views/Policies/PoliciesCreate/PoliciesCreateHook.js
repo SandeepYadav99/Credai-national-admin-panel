@@ -42,7 +42,7 @@ const usePoliciesCreateHook = ({ handleToggleSidePannel, isSidePanel, empId }) =
   const [isEdit, setIsEdit] = useState(false);
   const includeRef = useRef(null);
   const codeDebouncer = useDebounce(form?.code, 500);
-
+  
   const [listData, setListData] = useState({
     ADMIN: [],
     CHAPTERS: [],
@@ -126,9 +126,9 @@ const usePoliciesCreateHook = ({ handleToggleSidePannel, isSidePanel, empId }) =
       } else if (["code"].indexOf(val) < 0) {
         delete errors[val];
       }
-      if (form?.chapter_id && !isEmail(form?.chapter_id)) {
-        errors["chapter_id"] = true;
-      }
+      // if (form?.chapter_id && !isEmail(form?.chapter_id)) {
+      //   errors["chapter_id"] = true;
+      // }
     });
     Object.keys(errors).forEach((key) => {
       if (!errors[key]) {
