@@ -92,9 +92,6 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
-<<<<<<< HEAD
-
-=======
   {
     path: `${RouteName.CITY_ASSOCIATION_UPDATE}:id`,
     sidebarName: "Chapters Master",
@@ -104,7 +101,6 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
->>>>>>> 8715f61bcbca3ce5fcc421a3155d67c3d9f846a1
   {
     path: `${RouteName.ADMIN}`,
     sidebarName: "Admin Users",
