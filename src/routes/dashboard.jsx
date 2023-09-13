@@ -56,6 +56,15 @@ const dashboardRoutes = [
     is_protect: true,
   },
   {
+    path: `${RouteName.STATE_FEDERATION_UPDATE}:id`,
+    sidebarName: "Chapters Master",
+    navbarName: "Chapters Master",
+    icon: PeopleOutlined,
+    component: StateFedCreate,
+    is_sidebar: false,
+    is_protect: true,
+  },
+  {
     path: `${RouteName.NATIONAL_MEMBER_DETAIL}`,
     sidebarName: "National Member",
     navbarName: "National Member",

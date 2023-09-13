@@ -8,6 +8,7 @@ import history from "../../../libs/history.utils";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CustomSwitch from "../../../components/FormFields/CustomSwitch";
 import File from "../../../components/FileComponent/FileComponent.component";
+import CustomAutoComplete from "../../../components/FormFields/AutoCompleteText/CustomAutoComplete";
 
 import useCityAssCreate from "./CityAssCreate.hook";
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CityAssCreate = ({location}) => {
+const CityAssCreate = ({ location }) => {
   const {
     form,
     errorData,
@@ -33,7 +34,7 @@ const CityAssCreate = ({location}) => {
     changeTextData,
     id,
     listData,
-  } = useCityAssCreate({location});
+  } = useCityAssCreate({ location });
   const classes = useStyles();
 
   return (
@@ -110,6 +111,25 @@ const CityAssCreate = ({location}) => {
             </div>
             <div className={"formFlex"}>
               <div className={"formGroup"}>
+                <CustomAutoComplete
+                disabled={true}
+                  autoCompleteProps={{
+                    freeSolo: false,
+                    getOptionLabel: (option) => option?.name || "",
+                  }}
+                  dataset={listData?.CHAPTERS ? listData?.CHAPTERS :[]}
+                  datasetKey={"name"}
+                  onTextChange={(text, value) => {
+                    changeTextData(text, "parent_chapter_id");
+                  }}
+                  variant={"outlined"}
+                  label={"State Chapter"}
+                  name={"parent_chapter_id"}
+                  isError={errorData?.parent_chapter_id}
+                  value={form?.parent_chapter_id}
+                />
+              </div>
+              <div className={"formGroup"}>
                 <CustomSelectField
                   label={"Admin"}
                   value={form?.admin_id}
@@ -126,7 +146,6 @@ const CityAssCreate = ({location}) => {
                   })}
                 </CustomSelectField>
               </div>
-              <div className={"formGroup"}></div>
             </div>
           </div>
         </div>

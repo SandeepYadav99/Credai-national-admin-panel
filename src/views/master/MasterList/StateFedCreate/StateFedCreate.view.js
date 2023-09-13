@@ -33,6 +33,7 @@ const StateFedCreate = ({}) => {
     changeTextData,
     id,
     listData,
+    image
   } = useStateFedCreate({});
   const classes = useStyles();
 
@@ -69,7 +70,7 @@ const StateFedCreate = ({}) => {
               show_image={true}
               error={errorData?.image}
               value={form?.image}
-              // default_image={editData?.image ? editData?.image : null}
+              default_image={image ? image : null}
               onChange={(file) => {
                 if (file) {
                   changeTextData(file, "image");

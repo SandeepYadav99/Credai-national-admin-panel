@@ -8,7 +8,7 @@ export async function serviceCreateMasterList(params) {
   return await formDataRequest("chapters/create", params);
 }
 export async function serviceUpdateMasterList(params) {
-  return await postRequest("chapters/update", params);
+  return await formDataRequest("chapters/update", params);
 }
 export async function serviceDeleteMasterList(params) {
   return await postRequest("chapters/delete", params);

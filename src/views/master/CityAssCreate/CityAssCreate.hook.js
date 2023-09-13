@@ -25,7 +25,8 @@ const initialForm = {
   code: "",
   image: "",
   admin_id: "",
-  status: false,
+  status: true,
+  parent_chapter_id: "",
 };
 
 const useCityAssCreate = ({ location }) => {
@@ -38,8 +39,21 @@ const useCityAssCreate = ({ location }) => {
   const { id } = useParams();
   const [listData, setListData] = useState({
     ADMIN: [],
+    CHAPTERS: [],
   });
   const parentId = location?.state?.parent_id;
+
+  useEffect(() => {
+    if (parentId && listData?.CHAPTERS) {
+      const hodIndex = listData?.CHAPTERS.findIndex(
+        (val) => val.id === parentId
+      );
+      if (hodIndex >= 0) {
+        const parentValue = listData?.CHAPTERS[hodIndex];
+        setForm({ ...form, parent_chapter_id: parentValue });
+      }
+    }
+  }, [parentId, listData?.CHAPTERS]);
 
   useEffect(() => {
     if (id) {
@@ -47,6 +61,7 @@ const useCityAssCreate = ({ location }) => {
         if (!res.error) {
           const data = res?.data?.details;
           setForm({
+            ...form,
             ...data,
             is_active: data?.status === Constants.GENERAL_STATUS.ACTIVE,
           });
@@ -59,7 +74,7 @@ const useCityAssCreate = ({ location }) => {
   }, [id]);
 
   useEffect(() => {
-    serviceGetList(["ADMIN"]).then((res) => {
+    serviceGetList(["ADMIN", "CHAPTERS"]).then((res) => {
       if (!res.error) {
         setListData(res.data);
       }
@@ -115,14 +130,18 @@ const useCityAssCreate = ({ location }) => {
       console.log("form", form);
       Object.keys(form).forEach((key) => {
         if (["image", "status"].indexOf(key) < 0 && form[key]) {
-          fd.append(key, form[key]);
+          if (key === "parent_chapter_id") {
+            fd.append(key, form[key]?.id);
+          } else {
+            fd.append(key, form[key]);
+          }
         }
       });
       fd.append("status", form?.status ? "ACTIVE" : "INACTIVE");
       if (form?.image) {
         fd.append("image", form?.image);
       }
-      fd.append("parent_chapter_id", parentId);
+      // fd.append("parent_chapter_id", parentId);
       let req = serviceCreateCityAssocList;
       if (id) {
         req = serviceUpdateCityAssocList;

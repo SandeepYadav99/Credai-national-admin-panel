@@ -45,7 +45,7 @@ function useCityAssocList() {
       actionFetchCityAssocList(1, sortingData, {
         query: isMountRef.current ? query : null,
         query_data: isMountRef.current ? queryData : null,
-        parent_id: id,
+        parent_chapter_id: id,
       })
     );
     isMountRef.current = true;

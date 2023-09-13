@@ -5,6 +5,7 @@ export default {
   CHAPTERS_MASTER_DETAILS: "/master/details/",
   CHAPTERS_MASTER_UPDATE: "/master/update/",
   STATE_FEDERATION_CREATE:'/state/fed/create',
+  STATE_FEDERATION_UPDATE:'/state/fed/update/',
   NATIONAL_MEMBER_DETAIL:'/national/member/detail',
   CITY_ASSOCIATION_LIST:'/city/list/',
   CITY_ASSOCIATION_CREATE:'/city/create',
