@@ -23,6 +23,7 @@ import MemberCreate from "../views/MemberList/MemberCreate/MemberCreate.view";
 import MemberDetail from "../views/MemberList/MemberDetail/MemberDetail.view";
 import PolicieLists from "../views/Policies/PoliciesList/PoliciesListContainer";
 import StateMemberDetail from "../views/master/StateMemberDetail/StateMemberDetail.view";
+import CityMemDetail from "../views/master/CityMemDetail/CityMemDetail.view";
 
 const NewDashboard = lazy(() => import("../views/dashboard/NewDashboard.view"));
 
@@ -84,7 +85,15 @@ const dashboardRoutes = [
     is_sidebar: false,
     is_protect: true,
   },
-  
+  {
+    path: `${RouteName.CITY_MEMBER_DETAIL}:id`,
+    sidebarName: "National Member",
+    navbarName: "National Member",
+    icon: PeopleOutlined,
+    component: CityMemDetail,
+    is_sidebar: false,
+    is_protect: true,
+  },
   {
     path: `${RouteName.CITY_ASSOCIATION_LIST}:id`,
     sidebarName: "National Member",

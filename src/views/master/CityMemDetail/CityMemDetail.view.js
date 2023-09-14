@@ -3,11 +3,10 @@ import history from "../../../libs/history.utils";
 import styles from "./Style.module.css";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { ButtonBase, IconButton } from "@material-ui/core";
-import UpperInfo from "./component/UpperInfo/UpperInfo";
 import FilterComponent from "../../../components/Filter/Filter.component";
 import DataTables from "../../../Datatables/Datatable.table";
 import PageBox from "../../../components/PageBox/PageBox.component";
-import useCityAssocList from "./CityAssocList.hook";
+import useCityMemDetail from "./CityMemDetail.hook";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import StatusPill from "../../../components/Status/StatusPill.component";
@@ -15,8 +14,12 @@ import { Add, InfoOutlined } from "@material-ui/icons";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import PeopleOutlineOutlinedIcon from "@material-ui/icons/PeopleOutlineOutlined";
 import Constants from "../../../config/constants";
+import SidePanelComponent from "../../../components/SidePanel/SidePanel.component";
+import { useCallback } from "react";
+import StateMemCreate from "../StateMemberDetail/StateMemCreate/StateMemCreate.view";
+import CityMemUpper from "./Component/CityMemUpper/CityMemUpper";
 
-function CityAssocList() {
+function CityMemDetail() {
   const {
     handleSortOrderChange,
     handleRowSize,
@@ -32,40 +35,55 @@ function CityAssocList() {
     handleCreateFed,
     handleViewUpdate,
     CityData,
-    handleCityMember
-  } = useCityAssocList({});
+    handleToggleSidePannel,
+    isSidePanel,
+  } = useCityMemDetail({});
 
   const {
     data,
     all: allData,
     currentPage,
     is_fetching: isFetching,
-  } = useSelector((state) => state.city_assoc_list);
+  } = useSelector((state) => state.state_member_list);
 
+  const UpperInfoTitle = useCallback((obj) => {
+    if (obj) {
+      return (
+        <div className={styles.InfoWrap}>
+          <div>Add Member Users</div>
+          <div className={styles.newLine}></div>
+        </div>
+      );
+    }
+    return null;
+  }, []);
   const tableStructure = useMemo(() => {
     return [
       {
-        key: "code",
-        label: "city FEDERATION CODE",
+        key: "user",
+        label: "MEMBER USER",
         sortable: true,
-        render: (value, all) => (
-          <div>
-            {all.code}
-          </div>
-        ),
+        render: (value, all) => <div>{all.code}</div>,
       },
       {
-        key: "name",
-        label: "city NAME",
+        key: "id",
+        label: "MEMBER COMPANY/ MEMBERSHIP ID",
         sortable: false,
         render: (temp, all) => <div>{all?.name}</div>,
       },
       {
-        key: "status",
-        label: "STATUS",
-        sortable: false,
-        render: (temp, all) => <div>{<StatusPill status={all?.status} />}</div>,
+        key: "contact",
+        label: "PHONE NUMBER",
+        sortable: true,
+        render: (value, all) => <div>{all.code}</div>,
       },
+      {
+        key: "email",
+        label: "EMAIL",
+        sortable: true,
+        render: (value, all) => <div>{all.code}</div>,
+      },
+
       {
         key: "user_id",
         label: "Action",
@@ -86,9 +104,9 @@ function CityAssocList() {
               className={"tableActionBtn"}
               color="secondary"
               disabled={isCalling}
-              onClick={() => {
-                handleCityMember(all);
-              }}
+              // onClick={() => {
+              //   handleViewUpdate(all);
+              // }}
             >
               <PeopleOutlineOutlinedIcon fontSize={"small"} />
             </IconButton>
@@ -130,17 +148,17 @@ function CityAssocList() {
           <ButtonBase onClick={() => history.goBack()}>
             <ArrowBackIosIcon fontSize={"small"} />{" "}
             <span className={"capitalize"}>
-              <b>City Association list</b>
+              <b>City Member List</b>
             </span>
           </ButtonBase>
           <div className={styles.newLine} />
         </div>
-        <ButtonBase className={"createBtn"} onClick={handleCreateFed}>
-          ADD City Association
+        <ButtonBase className={"createBtn"} onClick={handleToggleSidePannel}>
+          ADD USER
           <Add fontSize={"small"} className={"plusIcon"}></Add>
         </ButtonBase>
       </div>
-      <UpperInfo data={CityData} />
+      <CityMemUpper data={CityData} />
       <PageBox>
         <div className={styles.headerContainer}>
           <div>
@@ -166,9 +184,21 @@ function CityAssocList() {
             </div>
           </div>
         </div>
+        <SidePanelComponent
+          handleToggle={handleToggleSidePannel}
+          title={<UpperInfoTitle />}
+          open={isSidePanel}
+          side={"right"}
+        >
+          <StateMemCreate
+            handleToggleSidePannel={handleToggleSidePannel}
+            isSidePanel={isSidePanel}
+            empId={editData}
+          />
+        </SidePanelComponent>
       </PageBox>
     </div>
   );
 }
 
-export default CityAssocList;
+export default CityMemDetail;

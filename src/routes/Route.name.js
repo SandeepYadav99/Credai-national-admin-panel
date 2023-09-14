@@ -8,6 +8,7 @@ export default {
   STATE_FEDERATION_UPDATE:'/state/fed/update/',
   NATIONAL_MEMBER_DETAIL:'/national/member/detail',
   STATE_MEMBER_DETAIL:'/state/member/detail/',
+  CITY_MEMBER_DETAIL:'/city/member/detail/',
   CITY_ASSOCIATION_LIST:'/city/list/',
   CITY_ASSOCIATION_CREATE:'/city/create',
   CITY_ASSOCIATION_UPDATE:'/city/update/',

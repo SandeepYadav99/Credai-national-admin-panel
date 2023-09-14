@@ -32,7 +32,7 @@ const initialForm = {
 
 const useStateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState({});
   const [errorData, setErrorData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ ...initialForm });
@@ -40,21 +40,21 @@ const useStateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
   const { id } = useParams();
   const [listData, setListData] = useState({
     MEMBERS: [],
-    CHAPTERS:[]
+    CHAPTERS: [],
   });
   useEffect(() => {
-    serviceGetList(["MEMBERS",['CHAPTERS']]).then((res) => {
+    serviceGetList(["MEMBERS", ["CHAPTERS"]]).then((res) => {
       if (!res.error) {
         setListData(res.data);
       }
     });
   }, []);
 
-  useEffect(()=>{
-    if(id && isSidePanel){
-      setForm({...form,member_id:id})
+  useEffect(() => {
+    if (id && isSidePanel) {
+      setForm({ ...form, member_id: id });
     }
-  },[id,isSidePanel])
+  }, [id, isSidePanel]);
 
   useEffect(() => {
     if (empId) {
@@ -78,36 +78,33 @@ const useStateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       handleReset();
     }
   }, [isSidePanel]);
-console.log('form',form)
+
   const checkCodeValidation = useCallback(
     (number) => {
       serviceUpdateAdminUserSearch({ contact: number }).then((res) => {
         if (!res.error) {
           const empData = res?.data;
-          const fd = {};
-          Object.keys({ ...initialForm }).forEach((val) => {
-            if (val !== "member_id") {
-              fd[val] = empData[val];
-            }
-          });
-          setForm({
-            ...form,
-            ...fd,
-          });
-          setDisabled(true);
-          console.log("res", empData);
-          // if (res.data.is_exists) {
-          //   console.log('res',res)
-          //   // errors["code"] = "AdminUser Code Exists";
-          //   // setErrorData(errors);
-          // } else {
-          //   // delete errors.code;
-          //   // setErrorData(errors);
-          // }
+          if (empData !== null) {
+            const fd = {};
+            const disabledField = {};
+            Object.keys({ ...initialForm }).forEach((val) => {
+              if (val !== "member_id" && empData[val]) {
+                fd[val] = empData[val];
+                disabledField[val] = true;
+              }
+            });
+            setDisabled({ ...disabled, ...disabledField });
+            setForm({
+              ...form,
+              ...fd,
+            });
+          } else {
+            setDisabled({});
+          }
         }
       });
     },
-    [errorData, setErrorData, form?.contact]
+    [form?.contact, disabled, setDisabled]
   );
 
   const checkFormValidation = useCallback(() => {
@@ -137,21 +134,21 @@ console.log('form',form)
   const submitToServer = useCallback(() => {
     if (!isSubmitting) {
       setIsSubmitting(true);
+      const fdData = { is_send_sms: false };
       const fd = new FormData();
       Object.keys(form).forEach((key) => {
-        if (key === "status") {
-          fd.append(key, form[key] ? "ACTIVE" : "INACTIVE");
-        } else if (key === "contact") {
-          fd.append(key, form[key].replace(/\+/g, ""));
+        if (key === "contact") {
+          fdData[key] = form[key].replace(/\+/g, "");
         } else {
-          fd.append(key, form[key]);
+          fdData[key] = form[key];
         }
       });
+
       let req;
       if (empId) {
         req = serviceUpdateAdminUser({ ...form, id: empId ? empId : "" });
       } else {
-        req = serviceAddMemberUsers(fd);
+        req = serviceAddMemberUsers(fdData);
       }
       req.then((res) => {
         if (!res.error) {
@@ -212,7 +209,6 @@ console.log('form',form)
       }
       if (type === "contact") {
         checkCodeValidation(form[type]);
-        console.log("form?.[type]", form?.[type], type);
       }
     },
     [changeTextData, checkCodeValidation]
@@ -238,6 +234,7 @@ console.log('form',form)
     handleReset,
     empId,
     listData,
+    disabled,
   };
 };
 

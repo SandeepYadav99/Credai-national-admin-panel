@@ -3,8 +3,6 @@ import {
   Button,
   ButtonBase,
   CircularProgress,
-  IconButton,
-  InputAdornment,
   MenuItem,
 } from "@material-ui/core";
 import styles from "./Style.module.css";
@@ -13,10 +11,6 @@ import CustomTextField from "../../../../components/FormFields/TextField/TextFie
 import CustomSelectField from "../../../../components/FormFields/SelectField/SelectField.component";
 
 import useAdminCreate from "./StateMemCreateHook";
-import { renderCountryContact } from "../../../../libs/redux-material.utils";
-import CustomCountryFC, {
-  CountryContactFC,
-} from "../../../../components/CountryFC/CustomCountryFC";
 
 const useStyles = makeStyles((theme) => ({
   iconBtnError: {
@@ -39,7 +33,8 @@ const StateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
     onBlurHandler,
     changeTextData,
     id,
-    listData
+    listData,
+    disabled
   } = useAdminCreate({ handleToggleSidePannel, isSidePanel, empId });
   const classes = useStyles();
   return (
@@ -63,6 +58,7 @@ const StateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       <div className={"formFlex"}>
         <div className={"formGroup"}>
           <CustomTextField
+            disabled={disabled?.name}
             isError={errorData?.name}
             errorText={errorData?.name}
             label={"Full Name"}
@@ -79,6 +75,7 @@ const StateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       <div className={"formFlex"}>
         <div className={"formGroup"}>
           <CustomTextField
+            disabled={disabled?.title}
             isError={errorData?.title}
             errorText={errorData?.title}
             label={"Title/Designation"}
@@ -94,6 +91,7 @@ const StateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       </div>
       <div className={"formGroup"}>
         <CustomSelectField
+          disabled={true}
           isError={errorData?.member_id}
           errorText={errorData?.member_id}
           label={"Company Name"}
@@ -114,6 +112,7 @@ const StateMemCreate = ({ handleToggleSidePannel, isSidePanel, empId }) => {
       <div className={"formFlex"}>
         <div className={"formGroup"}>
           <CustomTextField
+            disabled={disabled?.email}
             isError={errorData?.email}
             errorText={errorData?.email}
             label={"Email"}
